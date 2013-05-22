@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import br.com.trab3.Model.Conexao;
 import br.com.trab3.Model.Sala;
+import br.com.trab3.Model.Usuario;
 
 public class DataController {
 	
@@ -36,7 +37,7 @@ public class DataController {
 		sql = "Drop table if exists Usuario;";
 		stmt.execute(sql);
 		
-		/* Busca pelo maior numero da relação para poder incrementar */
+		/* Busca pelo maior numero da relaï¿½ï¿½o para poder incrementar */
 		/*select relacao from reserva order by Relacao DESC LIMIT 1 ;*/
 		
 		
@@ -71,6 +72,28 @@ public class DataController {
 		
 		// 1 = Ok
 		// 0 = Erro
+		if (status == 1)
+			return 1;
+		else
+			return 0;
+	}
+	
+	public int criaUsuario(Usuario usr) throws ClassNotFoundException, SQLException
+	{
+		int pos = 1;
+		int status;
+		// TODO: Fazer o insert
+		sql = "insert into Usuario";
+		pstmt = con.prepareStatement(sql);
+		
+		pstmt.setString(pos++, usr.getEmail());
+		pstmt.setInt(pos++, usr.getIdUsuario());
+		pstmt.setString(pos++, usr.getNomeCompleto());
+		pstmt.setString(pos++, usr.getSenha());
+		pstmt.setInt(pos++, usr.getAdministrador());
+		
+		status = pstmt.executeUpdate();
+		
 		if (status == 1)
 			return 1;
 		else
