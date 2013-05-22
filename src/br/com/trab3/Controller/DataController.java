@@ -53,6 +53,26 @@ public class DataController {
 		stmt.close();
 		con.close();	
 		
+	}
+	
+	public int criaSala(String nome) throws ClassNotFoundException, SQLException
+	{
+		int pos = 1;
+		int status;
+		con = Conexao.conexao();
+		sql = "Insert into Sala (Local) value (?) ;";
+		pstmt = con.prepareStatement(sql);
+		
+		pstmt.setString(pos++, nome);
+		
+		status = pstmt.executeUpdate();
+		
+		// 1 = Ok
+		// 0 = Erro
+		if (status == 1)
+			return 1;
+		else
+			return 0;
 		
 	}
 	
