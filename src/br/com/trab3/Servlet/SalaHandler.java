@@ -16,7 +16,7 @@ import br.com.trab3.Model.Sala;
 /**
  * Servlet implementation class CadastroHandler
  */
-@WebServlet("/CadastroHandler")
+@WebServlet("/SalaHandler")
 public class SalaHandler extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -84,7 +84,26 @@ public class SalaHandler extends HttpServlet {
     		}
     		else
     		{
+    			try{
+    				int status;
+    				int idSala;
+
+    				idSala = Integer.parseInt(request.getParameter("idSala"));
+
+    				status = d.removeSala(idSala);
     				
+    				if(status == 1)
+    					mensagem = "Sala inserida com sucesso!";
+    				else
+    					mensagem = "Algo errado aconteceu";
+    				
+    				request.getRequestDispatcher("CadastroSala.jsp").forward(request, response);
+    				
+    			}
+    			catch (ClassNotFoundException | SQLException e) {
+    				System.err.println("Erro ao tentar criar tabela: " + e.toString());
+    				request.getRequestDispatcher("erro.jsp").forward(request, response);
+    			}
     		}
     	}
     }

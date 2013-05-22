@@ -100,9 +100,23 @@ public class DataController {
 		return salas;
 	}
 	
-	public int removeSala(int id){
+	public int removeSala(int id) throws ClassNotFoundException, SQLException{
+		con = Conexao.conexao();
+		sql = "delete from Sala where Id_Usuario = ?";
+		pstmt = con.prepareStatement(sql);
 		
-		return 1;
+		int pos = 1;
+		int status;
+		pstmt.setInt(pos++, id);
+		
+		status = pstmt.executeUpdate();
+		
+		// 1 = Ok
+		// 0 = Erro
+		if (status == 1)
+			return 1;
+		else
+			return 0;
 	}
 
 }
