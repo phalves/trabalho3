@@ -5,8 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import br.com.trab3.Model.Conexao;
+import br.com.trab3.Model.Sala;
 
 public class DataController {
 	
@@ -73,8 +75,29 @@ public class DataController {
 			return 1;
 		else
 			return 0;
-		
 	}
 	
+	public ArrayList <Sala> getSalas() throws ClassNotFoundException, SQLException{
+		ArrayList<Sala> salas = new ArrayList<Sala>();
+		
+		con = Conexao.conexao();
+		sql = "select * from Sala;";
+		pstmt = con.prepareStatement(sql);			
+		resultSet = pstmt.executeQuery();
+		
+		while(resultSet.next())
+		{
+			Sala sala = new Sala();
+			sala.setId(Integer.parseInt(resultSet.getString("Id_Sala")));
+			sala.setLocal(resultSet.getString("Local"));
+
+			salas.add(sala);
+		}
+		
+		pstmt.close();
+		con.close();
+		
+		return salas;
+	}
 
 }

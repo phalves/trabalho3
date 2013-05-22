@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+    pageEncoding="ISO-8859-1" import="br.com.trab3.Model.*" import="java.util.*"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -7,19 +7,35 @@
 <title>Insert title here</title>
 </head>
 <body>
+<%
+System.out.print("AAAAAAAAAAAAA");
+	
+	ArrayList<Sala> salas =  (ArrayList<Sala>)request.getAttribute("salas");
+	System.out.print(salas.size());
+%>
+<form action="CadastroHandler" method="post">
 	<table >
 		<tr><td>
 			<fieldset>
 			<legend>Nova sala</legend>
-				<form action="CadastroHandler" method="post">
-					
 					Nome da Sala:
 					<input type="text" name="local"/>
 					<button type="submit" name="tipo" value="sala">Cadastrar</button>
-				</form>
-				
 			</fieldset>
-		</td></tr>
+		</td>
+		<td>
+			<fieldset>
+				<legend>Lista de salas cadastradas</legend>
+					<table border="1">
+						<tr><td>Cancelar</td><td>Sala</td></tr>
+						<% for (Sala sala : salas) {%>
+						<tr><td><button value=<%=sala.getId() %>>X</button> </td><td><%=sala.getLocal() %></td></tr>
+						<%} %>
+						<tr><td>x</td><td>teste</td></tr>
+					</table>
+			</fieldset>
+		</tr>
 	</table>
+</form>
 </body>
 </html>
