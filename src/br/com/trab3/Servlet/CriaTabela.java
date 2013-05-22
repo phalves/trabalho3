@@ -35,7 +35,7 @@ public class CriaTabela extends HttpServlet {
 		
 		try {
 			
-			d.criaTabela();
+			d.criaTabelas();
 			
 			mensagem = "Tabela criada com sucesso!";
 			
