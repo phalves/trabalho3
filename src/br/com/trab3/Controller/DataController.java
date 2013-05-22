@@ -99,5 +99,10 @@ public class DataController {
 		
 		return salas;
 	}
+	
+	public int removeSala(int id){
+		
+		return 1;
+	}
 
 }

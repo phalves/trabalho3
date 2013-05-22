@@ -8,8 +8,6 @@
 </head>
 <body>
 <%
-System.out.print("AAAAAAAAAAAAA");
-	
 	ArrayList<Sala> salas =  (ArrayList<Sala>)request.getAttribute("salas");
 	System.out.print(salas.size());
 %>
@@ -29,9 +27,8 @@ System.out.print("AAAAAAAAAAAAA");
 					<table border="1">
 						<tr><td>Cancelar</td><td>Sala</td></tr>
 						<% for (Sala sala : salas) {%>
-						<tr><td><button value=<%=sala.getId() %>>X</button> </td><td><%=sala.getLocal() %></td></tr>
+						<tr><td><button type="submit" name="tipo" value=<%=sala.getId() %>>X</button> </td><td><%=sala.getLocal() %></td></tr>
 						<%} %>
-						<tr><td>x</td><td>teste</td></tr>
 					</table>
 			</fieldset>
 		</tr>
