@@ -23,8 +23,8 @@ public class DataController {
 	ResultSet resultSet;
 	Statement stmt;
 	
-	public void criaTabelas() throws ClassNotFoundException, SQLException {
-		
+	public void criaTabelas() throws ClassNotFoundException, SQLException
+	{	
 		con = Conexao.conexao();
 		stmt = con.createStatement();
 		
@@ -37,9 +37,8 @@ public class DataController {
 		sql = "Drop table if exists Usuario;";
 		stmt.execute(sql);
 		
-		/* Busca pelo maior numero da rela��o para poder incrementar */
-		/*select relacao from reserva order by Relacao DESC LIMIT 1 ;*/
-		
+		/* Busca pelo maior numero da relacao para poder incrementar  */
+		/* select relacao from reserva order by Relacao DESC LIMIT 1; */
 		
 		sql = "Create table Sala (Id_Sala INT AUTO_INCREMENT NOT NULL PRIMARY KEY, Local Varchar(20));";
 		stmt.execute(sql);
@@ -55,27 +54,6 @@ public class DataController {
 		
 		stmt.close();
 		con.close();	
-		
-	}
-	
-	public int criaSala(String nome) throws ClassNotFoundException, SQLException
-	{
-		int pos = 1;
-		int status;
-		con = Conexao.conexao();
-		sql = "Insert into Sala (Local) value (?) ;";
-		pstmt = con.prepareStatement(sql);
-		
-		pstmt.setString(pos++, nome);
-		
-		status = pstmt.executeUpdate();
-		
-		// 1 = Ok
-		// 0 = Erro
-		if (status == 1)
-			return 1;
-		else
-			return 0;
 	}
 	
 	public int criaUsuario(Usuario usr) throws ClassNotFoundException, SQLException
@@ -101,26 +79,56 @@ public class DataController {
 	}
 	
 	public ArrayList <Usuario> getUsuarios() throws ClassNotFoundException, SQLException{
-		ArrayList<Usuario> salas = new ArrayList<Usuario>();
+		ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
 		
 		con = Conexao.conexao();
-		sql = "select * from Sala;";
+		sql = "select * from Usuario;";
 		pstmt = con.prepareStatement(sql);			
 		resultSet = pstmt.executeQuery();
 		
 		while(resultSet.next())
 		{
+			// TODO: Rever valor do parametro do getString(...)
 			Usuario usr = new Usuario();
-			usr.setId(Integer.parseInt(resultSet.getString("Id_Sala")));
-			usr.setLocal(resultSet.getString("Local"));
-
-			salas.add(usr);
+			usr.setIdUsuario(Integer.parseInt(resultSet.getString("Id_Usuario")));
+			usr.setUsername(resultSet.getString("Username"));
+			usr.setNomeCompleto(resultSet.getString("Nome_Completo"));
+			usr.setEmail(resultSet.getString("Id_Email"));
+			usr.setSenha(resultSet.getString("Id_Senha"));
+			usr.setAdministrador(Integer.parseInt(resultSet.getString("Administrador")));
+			
+			usuarios.add(usr);
 		}
 		
 		pstmt.close();
 		con.close();
 		
-		return salas;
+		return usuarios;
+	}
+	
+	public int removeUsuario(int id) throws ClassNotFoundException, SQLException{
+		// TODO
+		return -1;
+	}
+	
+	public int criaSala(String nome) throws ClassNotFoundException, SQLException
+	{
+		int pos = 1;
+		int status;
+		con = Conexao.conexao();
+		sql = "Insert into Sala (Local) value (?) ;";
+		pstmt = con.prepareStatement(sql);
+		
+		pstmt.setString(pos++, nome);
+		
+		status = pstmt.executeUpdate();
+		
+		// 1 = OK
+		// 0 = ERROR
+		if (status == 1)
+			return 1;
+		else
+			return 0;
 	}
 	
 	public ArrayList <Sala> getSalas() throws ClassNotFoundException, SQLException{
@@ -160,13 +168,11 @@ public class DataController {
 		pstmt.close();
 		con.close();
 		
-		
-		// 1 = Ok
-		// 0 = Erro
+		// 1 = OK
+		// 0 = ERROR
 		if (status == 1)
 			return 1;
 		else
 			return 0;
 	}
-
 }
