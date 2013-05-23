@@ -10,7 +10,7 @@
 <%	
 	ArrayList<Usuario> usuarios =  (ArrayList<Usuario>)request.getAttribute("usuarios");
 %>
-<form action="CadastroHandler" method="post">
+<form action="UsuarioHandler" method="post">
 	<table >
 		<tr><td>
 			<fieldset>

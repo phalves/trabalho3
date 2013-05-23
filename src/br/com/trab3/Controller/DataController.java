@@ -100,6 +100,29 @@ public class DataController {
 			return 0;
 	}
 	
+	public ArrayList <Usuario> getUsuarios() throws ClassNotFoundException, SQLException{
+		ArrayList<Usuario> salas = new ArrayList<Usuario>();
+		
+		con = Conexao.conexao();
+		sql = "select * from Sala;";
+		pstmt = con.prepareStatement(sql);			
+		resultSet = pstmt.executeQuery();
+		
+		while(resultSet.next())
+		{
+			Usuario usr = new Usuario();
+			usr.setId(Integer.parseInt(resultSet.getString("Id_Sala")));
+			usr.setLocal(resultSet.getString("Local"));
+
+			salas.add(usr);
+		}
+		
+		pstmt.close();
+		con.close();
+		
+		return salas;
+	}
+	
 	public ArrayList <Sala> getSalas() throws ClassNotFoundException, SQLException{
 		ArrayList<Sala> salas = new ArrayList<Sala>();
 		
