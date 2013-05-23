@@ -88,9 +88,11 @@ public class SalaHandler extends HttpServlet {
     				int status;
     				int idSala;
 
-    				idSala = Integer.parseInt(request.getParameter("idSala"));
-
+    				idSala = Integer.parseInt(request.getParameter("tipo"));
     				status = d.removeSala(idSala);
+    				
+    				salas = d.getSalas();
+    				request.setAttribute("salas", salas);
     				
     				if(status == 1)
     					mensagem = "Sala inserida com sucesso!";

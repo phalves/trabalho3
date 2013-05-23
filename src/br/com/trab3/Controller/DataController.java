@@ -125,7 +125,7 @@ public class DataController {
 	
 	public int removeSala(int id) throws ClassNotFoundException, SQLException{
 		con = Conexao.conexao();
-		sql = "delete from Sala where Id_Usuario = ?";
+		sql = "delete from Sala where Id_Sala = ?";
 		pstmt = con.prepareStatement(sql);
 		
 		int pos = 1;
@@ -133,6 +133,10 @@ public class DataController {
 		pstmt.setInt(pos++, id);
 		
 		status = pstmt.executeUpdate();
+		
+		pstmt.close();
+		con.close();
+		
 		
 		// 1 = Ok
 		// 0 = Erro

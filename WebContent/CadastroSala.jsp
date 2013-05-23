@@ -11,7 +11,7 @@
 	ArrayList<Sala> salas =  (ArrayList<Sala>)request.getAttribute("salas");
 	System.out.print(salas.size());
 %>
-<form action="CadastroHandler" method="post">
+<form action="SalaHandler" method="post">
 	<table >
 		<tr><td>
 			<fieldset>
@@ -27,7 +27,7 @@
 					<table border="1">
 						<tr><td>Cancelar</td><td>Sala</td></tr>
 						<% for (Sala sala : salas) {%>
-						<tr><td><button type="submit" name="idSala" value=<%=sala.getId() %>>X</button> </td><td><%=sala.getLocal() %></td></tr>
+						<tr><td><button type="submit" name="tipo" value=<%=sala.getId() %>>X</button> </td><td><%=sala.getLocal() %></td></tr>
 						<%} %>
 					</table>
 			</fieldset>
