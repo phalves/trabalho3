@@ -43,7 +43,6 @@ public class UsuarioHandler extends HttpServlet {
 		
 		try 
 		{
-			//System.out.println(d.getUsuarios().toString());
 			request.setAttribute("usuarios", d.getUsuarios());
 			request.getRequestDispatcher("CadastroUsuario.jsp").forward(request, response);
 		} 
