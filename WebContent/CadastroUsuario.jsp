@@ -17,22 +17,20 @@
 			<fieldset>
 			<legend>Novo usuário</legend>
 					Username:
-					<input type="text" name="username"/>
+					<input type="text" name="username"/></br>
 					Senha:
-					<input type="text" name="senha"/>
+					<input type="text" name="senha"/></br>
 					Confirmação de Senha:
-					<input type="text" name="confirmacaosenha"/>
+					<input type="text" name="confirmacaosenha"/></br>
 					Nome Completo:
-					<input type="text" name="nomecompleto"/>
+					<input type="text" name="nomecompleto"/></br>
 					e-Mail:
-					<input type="text" name="email"/>
+					<input type="text" name="email"/></br>
 					Papel:
 					<select>
 						<option>Usuário</option>
 						<option>Administrador</option>
-					</select>
-					Username:
-					<input type="text" name="username"/>
+					</select></br>
 					<button type="submit" name="tipo" value="usuario">Cadastrar</button>
 			</fieldset>
 		</td>
@@ -40,7 +38,7 @@
 			<fieldset>
 				<legend>Usuários Cadastrados</legend>
 					<table border="1">
-						<tr><td>Cancelar</td><td>Sala</td></tr>
+						<tr><td>Remover</td><td>Nome Completo</td></tr>
 						<% for (Usuario usr : usuarios) {%>
 						<tr><td><button value=<%=usr.getIdUsuario() %>>X</button> </td><td><%=usr.getNomeCompleto() %></td></tr>
 						<%} %>

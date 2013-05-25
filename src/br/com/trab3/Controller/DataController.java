@@ -119,8 +119,6 @@ public class DataController {
 		pstmt.close();
 		con.close();
 
-		// 1 = OK
-		// 0 = ERROR
 		if (status == 1)
 			return 1;
 		else
@@ -138,8 +136,6 @@ public class DataController {
 
 		status = pstmt.executeUpdate();
 
-		// 1 = OK
-		// 0 = ERROR
 		if (status == 1)
 			return 1;
 		else
@@ -185,8 +181,6 @@ public class DataController {
 		pstmt.close();
 		con.close();
 
-		// 1 = OK
-		// 0 = ERROR
 		if (status == 1)
 			return 1;
 		else
