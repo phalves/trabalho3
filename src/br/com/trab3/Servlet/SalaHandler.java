@@ -19,94 +19,91 @@ import br.com.trab3.Model.Sala;
 @WebServlet("/SalaHandler")
 public class SalaHandler extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public SalaHandler() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public SalaHandler() {
+		super();
+	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	doPost(request, response);
-    }
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doPost(request, response);
+	}
 
-    /**
-     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-     */
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	String tipo = request.getParameter("tipo");
-    	String mensagem;
-    	DataController d = new DataController();
-    	ArrayList<Sala> salas;
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String tipo = request.getParameter("tipo");
+		String mensagem;
+		DataController d = new DataController();
+		ArrayList<Sala> salas;
 
-    	if(tipo == null)
-    	{
-    		try {
+		if(tipo == null)
+		{
+			try {
+				salas = d.getSalas();
+				request.setAttribute("salas", salas);
+				request.getRequestDispatcher("CadastroSala.jsp").forward(request, response);
 
-    			salas = d.getSalas();
-    			request.setAttribute("salas", salas);
-    			request.getRequestDispatcher("CadastroSala.jsp").forward(request, response);
+			} catch (ClassNotFoundException | SQLException e) {
+				System.err.println("Erro ao tentar criar tabela: " + e.toString());
+				request.getRequestDispatcher("erro.jsp").forward(request, response);
+			}
+		}
+		else
+		{
+			if(tipo.equals("sala"))
+			{
+				try {
+					int status;
 
-    		}catch (ClassNotFoundException | SQLException e) {
-    			System.err.println("Erro ao tentar criar tabela: " + e.toString());
-    			request.getRequestDispatcher("erro.jsp").forward(request, response);
-    		}
-    	}
-    	else
-    	{
-    		if(tipo.equals("sala"))
-    		{
-    			try {
+					status = d.criaSala(request.getParameter("local"));
+					salas = d.getSalas();
 
-    				int status;
+					if(status == 1)
+						mensagem = "Sala inserida com sucesso!";
+					else
+						mensagem = "Algo errado aconteceu";
 
-    				status = d.criaSala(request.getParameter("local"));
-    				salas = d.getSalas();
+					request.setAttribute("mensagem", mensagem);
+					request.setAttribute("salas", salas);
+					request.getRequestDispatcher("CadastroSala.jsp").forward(request, response);
 
-    				if(status == 1)
-    					mensagem = "Sala inserida com sucesso!";
-    				else
-    					mensagem = "Algo errado aconteceu";
+				} catch (ClassNotFoundException | SQLException e) {
+					System.err.println("Erro ao tentar criar tabela: " + e.toString());
+					request.getRequestDispatcher("erro.jsp").forward(request, response);
+				}
+			}
+			else
+			{
+				try {
+					int status;
+					int idSala;
 
-    				request.setAttribute("mensagem", mensagem);
-    				request.setAttribute("salas", salas);
-    				request.getRequestDispatcher("CadastroSala.jsp").forward(request, response);
+					idSala = Integer.parseInt(request.getParameter("tipo"));
+					status = d.removeSala(idSala);
 
-    			} catch (ClassNotFoundException | SQLException e) {
-    				System.err.println("Erro ao tentar criar tabela: " + e.toString());
-    				request.getRequestDispatcher("erro.jsp").forward(request, response);
-    			}
-    		}
-    		else
-    		{
-    			try{
-    				int status;
-    				int idSala;
+					salas = d.getSalas();
+					request.setAttribute("salas", salas);
 
-    				idSala = Integer.parseInt(request.getParameter("tipo"));
-    				status = d.removeSala(idSala);
-    				
-    				salas = d.getSalas();
-    				request.setAttribute("salas", salas);
-    				
-    				if(status == 1)
-    					mensagem = "Sala inserida com sucesso!";
-    				else
-    					mensagem = "Algo errado aconteceu";
-    				
-    				request.getRequestDispatcher("CadastroSala.jsp").forward(request, response);
-    				
-    			}
-    			catch (ClassNotFoundException | SQLException e) {
-    				System.err.println("Erro ao tentar criar tabela: " + e.toString());
-    				request.getRequestDispatcher("erro.jsp").forward(request, response);
-    			}
-    		}
-    	}
-    }
+					if(status == 1)
+						mensagem = "Sala inserida com sucesso!";
+					else
+						mensagem = "Algo errado aconteceu";
+
+					request.getRequestDispatcher("CadastroSala.jsp").forward(request, response);
+
+				}
+				catch (ClassNotFoundException | SQLException e) {
+					System.err.println("Erro ao tentar criar tabela: " + e.toString());
+					request.getRequestDispatcher("erro.jsp").forward(request, response);
+				}
+			}
+		}
+	}
 }
