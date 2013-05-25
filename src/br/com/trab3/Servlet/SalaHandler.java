@@ -14,7 +14,7 @@ import br.com.trab3.Controller.DataController;
 import br.com.trab3.Model.Sala;
 
 /**
- * Servlet implementation class CadastroHandler
+ * Servlet implementation class SalaHandler
  */
 @WebServlet("/SalaHandler")
 public class SalaHandler extends HttpServlet {

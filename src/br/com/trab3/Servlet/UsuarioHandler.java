@@ -39,79 +39,18 @@ public class UsuarioHandler extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO
-
-
-
-
-
-
-		// Codigo abaixo de doPost Sala
-
-		String tipo = request.getParameter("tipo");
-		String mensagem;
 		DataController d = new DataController();
-		ArrayList<Sala> salas;
-
-		if(tipo == null)
+		
+		try 
 		{
-			try {
-				salas = d.getSalas();
-				request.setAttribute("salas", salas);
-				request.getRequestDispatcher("CadastroSala.jsp").forward(request, response);
-
-			}catch (ClassNotFoundException | SQLException e) {
-				System.err.println("Erro ao tentar criar tabela: " + e.toString());
-				request.getRequestDispatcher("erro.jsp").forward(request, response);
-			}
-		}
-		else
+			//System.out.println(d.getUsuarios().toString());
+			request.setAttribute("usuarios", d.getUsuarios());
+			request.getRequestDispatcher("CadastroUsuario.jsp").forward(request, response);
+		} 
+		catch (ClassNotFoundException | SQLException e) 
 		{
-			if(tipo.equals("sala"))
-			{
-				try {
-					int status;
-
-					status = d.criaSala(request.getParameter("local"));
-					salas = d.getSalas();
-
-					if(status == 1)
-						mensagem = "Sala inserida com sucesso!";
-					else
-						mensagem = "Algo errado aconteceu";
-
-					request.setAttribute("mensagem", mensagem);
-					request.setAttribute("salas", salas);
-					request.getRequestDispatcher("CadastroSala.jsp").forward(request, response);
-
-				} catch (ClassNotFoundException | SQLException e) {
-					System.err.println("Erro ao tentar criar tabela: " + e.toString());
-					request.getRequestDispatcher("erro.jsp").forward(request, response);
-				}
-			}
-			else
-			{
-				try {
-					int status;
-					int idSala;
-
-					idSala = Integer.parseInt(request.getParameter("tipo"));
-					status = d.removeSala(idSala);
-
-					salas = d.getSalas();
-					request.setAttribute("salas", salas);
-
-					if(status == 1)
-						mensagem = "Sala inserida com sucesso!";
-					else
-						mensagem = "Algo errado aconteceu";
-
-					request.getRequestDispatcher("CadastroSala.jsp").forward(request, response);
-
-				} catch (ClassNotFoundException | SQLException e) {
-					System.err.println("Erro ao tentar criar tabela: " + e.toString());
-					request.getRequestDispatcher("erro.jsp").forward(request, response);
-				}
-			}
+			System.err.println("Erro ao chamar getUsuarios: " + e.toString());
+			request.getRequestDispatcher("erro.jsp").forward(request, response);
 		}
 	}
 }

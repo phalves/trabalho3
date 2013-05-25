@@ -4,11 +4,12 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
-<title>Insert title here</title>
+<title>Administração de Usuários</title>
 </head>
 <body>
 <%	
 	ArrayList<Usuario> usuarios =  (ArrayList<Usuario>)request.getAttribute("usuarios");
+	System.out.print(usuarios.size());
 %>
 <form action="UsuarioHandler" method="post">
 	<table >
