@@ -38,7 +38,6 @@ public class SalaHandler extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("doPost SalaHandler 0");
 		
 		String tipo = request.getParameter("tipo");
 		String mensagem;
@@ -47,8 +46,6 @@ public class SalaHandler extends HttpServlet {
 
 		if(tipo == null)
 		{
-			System.out.println("doPost SalaHandler 1");
-			
 			try {
 				salas = d.getSalas();
 				request.setAttribute("salas", salas);
@@ -62,9 +59,7 @@ public class SalaHandler extends HttpServlet {
 		else
 		{			
 			if(tipo.equals("sala"))
-			{
-				System.out.println("doPost SalaHandler 2");
-				
+			{	
 				try {
 					int status;
 
@@ -86,9 +81,7 @@ public class SalaHandler extends HttpServlet {
 				}
 			}
 			else
-			{
-				System.out.println("doPost SalaHandler 3");
-				
+			{				
 				try {
 					int status;
 					int idSala;

@@ -9,8 +9,10 @@
 <body>
 <%
 	ArrayList<Sala> salas =  (ArrayList<Sala>)request.getAttribute("salas");
-	//System.out.print(salas.size());
 %>
+
+<h1>Cadastro de Salas</h1>
+<a href="AtividadesAdministrativas.jsp">Inicio</a> | <a href="Logout">Logout</a>
 <form action="SalaHandler" method="post">
 	<table >
 		<tr><td>
