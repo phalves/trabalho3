@@ -9,7 +9,7 @@
 <body>
 <%
 	ArrayList<Sala> salas =  (ArrayList<Sala>)request.getAttribute("salas");
-	System.out.print(salas.size());
+	//System.out.print(salas.size());
 %>
 <form action="SalaHandler" method="post">
 	<table >

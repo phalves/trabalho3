@@ -38,6 +38,8 @@ public class SalaHandler extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("doPost SalaHandler 0");
+		
 		String tipo = request.getParameter("tipo");
 		String mensagem;
 		DataController d = new DataController();
@@ -45,6 +47,8 @@ public class SalaHandler extends HttpServlet {
 
 		if(tipo == null)
 		{
+			System.out.println("doPost SalaHandler 1");
+			
 			try {
 				salas = d.getSalas();
 				request.setAttribute("salas", salas);
@@ -56,9 +60,11 @@ public class SalaHandler extends HttpServlet {
 			}
 		}
 		else
-		{
+		{			
 			if(tipo.equals("sala"))
 			{
+				System.out.println("doPost SalaHandler 2");
+				
 				try {
 					int status;
 
@@ -81,6 +87,8 @@ public class SalaHandler extends HttpServlet {
 			}
 			else
 			{
+				System.out.println("doPost SalaHandler 3");
+				
 				try {
 					int status;
 					int idSala;
@@ -92,12 +100,11 @@ public class SalaHandler extends HttpServlet {
 					request.setAttribute("salas", salas);
 
 					if(status == 1)
-						mensagem = "Sala inserida com sucesso!";
+						mensagem = "Sala removida com sucesso!";
 					else
 						mensagem = "Algo errado aconteceu";
 
 					request.getRequestDispatcher("CadastroSala.jsp").forward(request, response);
-
 				}
 				catch (ClassNotFoundException | SQLException e) {
 					System.err.println("Erro ao tentar criar tabela: " + e.toString());

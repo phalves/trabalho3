@@ -58,14 +58,14 @@ public class DataController {
 	public int criaUsuario(Usuario usr) throws ClassNotFoundException, SQLException {
 		int pos = 1;
 		int status;
-		// TODO: Fazer o insert
-		sql = "insert into Usuario";
+		con = Conexao.conexao();
+		sql = "Insert into Usuario (username, senha, nomecompleto, email, administrador) values (?, ?, ?, ?, ?);";
 		pstmt = con.prepareStatement(sql);
-
-		pstmt.setString(pos++, usr.getEmail());
-		pstmt.setInt(pos++, usr.getIdUsuario());
-		pstmt.setString(pos++, usr.getNomeCompleto());
+		
+		pstmt.setString(pos++, usr.getUsername());
 		pstmt.setString(pos++, usr.getSenha());
+		pstmt.setString(pos++, usr.getNomeCompleto());
+		pstmt.setString(pos++, usr.getEmail());
 		pstmt.setInt(pos++, usr.getAdministrador());
 
 		status = pstmt.executeUpdate();
@@ -104,7 +104,8 @@ public class DataController {
 	}
 
 	public int removeUsuario(int id) throws ClassNotFoundException, SQLException {
-		// TODO
+		System.out.print("removeUsuario: ");
+		System.out.print(id);
 		
 		con = Conexao.conexao();
 		sql = "delete from Usuario where Id_Usuario = ?";
@@ -166,7 +167,8 @@ public class DataController {
 	}
 
 	public int removeSala(int id) throws ClassNotFoundException, SQLException {
-		// TODO
+		System.out.print("removeSala: ");
+		System.out.print(id);
 		
 		con = Conexao.conexao();
 		sql = "delete from Sala where Id_Sala = ?";

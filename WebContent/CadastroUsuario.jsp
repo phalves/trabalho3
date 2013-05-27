@@ -9,7 +9,7 @@
 <body>
 <%	
 	ArrayList<Usuario> usuarios =  (ArrayList<Usuario>)request.getAttribute("usuarios");
-	System.out.print(usuarios.size());
+	//System.out.print(usuarios.size());
 %>
 <form action="UsuarioHandler" method="post">
 	<table >
@@ -24,7 +24,7 @@
 					<input type="text" name="confirmacaosenha"/><br>
 					Nome Completo:
 					<input type="text" name="nomecompleto"/><br>
-					e-Mail:
+					E-mail:
 					<input type="text" name="email"/><br>
 					Papel:
 					<select>
@@ -36,11 +36,12 @@
 		</td>
 		<td>
 			<fieldset>
-				<legend>Usuários Cadastrados</legend>
+				<legend>Lista de  usuários Cadastrados</legend>
 					<table border="1">
 						<tr><td>Remover</td><td>Nome Completo</td></tr>
 						<% for (Usuario usr : usuarios) {%>
-						<tr><td><button value=<%=usr.getIdUsuario() %>>X</button> </td><td><%=usr.getNomeCompleto() %></td></tr>
+						<tr><td><button type="submit" name="tipo" value=<%=usr.getIdUsuario() %>>X</button> </td><td><%=usr.getNomeCompleto() %></td></tr>
+						
 						<%} %>
 					</table>
 			</fieldset>
