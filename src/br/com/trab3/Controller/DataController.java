@@ -188,4 +188,33 @@ public class DataController {
 		else
 			return 0;
 	}
+	
+	public Usuario autentica (String username, String senha) throws ClassNotFoundException, SQLException{
+		int pos = 1;
+		
+		con = Conexao.conexao();
+		sql = "select * from Usuario where Username = ? and Senha = ?;";
+		pstmt = con.prepareStatement(sql);
+		
+		pstmt.setString(pos++, username);
+		pstmt.setString(pos++, senha);
+		
+					
+		resultSet = pstmt.executeQuery();
+
+		if(resultSet.next()){
+			Usuario usuario = new Usuario();
+			usuario.setIdUsuario(Integer.parseInt(resultSet.getString("Id_Usuario")));
+			usuario.setAdministrador(Integer.parseInt(resultSet.getString("Administrador")));
+			usuario.setEmail(resultSet.getString("Email"));
+			usuario.setNomeCompleto(resultSet.getString("NomeCompleto"));
+			usuario.setUsername(resultSet.getString("Username"));
+			return usuario;
+		}
+
+		pstmt.close();
+		con.close();
+		
+		return null;
+	}
 }

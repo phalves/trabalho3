@@ -18,7 +18,7 @@
 			Usuário:
 		</td>
 		<td>
-			<input type="text" name="nome"/><br>
+			<input type="text" name="username"/><br>
 		</td>
 	</tr>
 	<tr>
@@ -31,7 +31,7 @@
 	</tr>
 	<tr>
 		<td>
-			<button type="submit">Entrar</button>
+			<button type="submit" name="tipo" value="usuario">Entrar</button>
 		</td>
 	</tr>
 		
