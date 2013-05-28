@@ -90,8 +90,8 @@ public class AutenticacaoServlet extends HttpServlet {
 			
 		}
 		catch (ClassNotFoundException | SQLException e) {
-			System.err.println("Erro ao tentar criar tabela: " + e.toString());
-			request.getRequestDispatcher("erro.jsp").forward(request, response);
+			System.err.println("Erro ao tentar consultar tabela: " + e.toString());
+			request.getRequestDispatcher("erropage.jsp").forward(request, response);
 		}
 		
 		

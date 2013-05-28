@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.jasper.tagplugins.jstl.core.Redirect;
+
 /**
  * Servlet implementation class Logout
  */
@@ -31,7 +33,7 @@ public class Logout extends HttpServlet {
 		session.setAttribute("usuario", null);
 		session.removeAttribute("usuario");
 		
-		request.getRequestDispatcher("index.html").forward(request, response);
+		response.sendRedirect("index.html");
 	}
 
 	/**

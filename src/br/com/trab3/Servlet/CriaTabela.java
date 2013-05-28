@@ -42,7 +42,7 @@ public class CriaTabela extends HttpServlet {
 
 		} catch (ClassNotFoundException | SQLException e) {
 			System.err.println("Erro ao tentar criar tabela: " + e.toString());
-			request.getRequestDispatcher("erro.jsp").forward(request, response);
+			request.getRequestDispatcher("erropage.jsp").forward(request, response);
 		}
 	}
 
