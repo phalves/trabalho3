@@ -73,7 +73,6 @@ public class SalaHandler extends HttpServlet {
 					
 					// Envio de email
 					Usuario usuario = (Usuario)session.getAttribute("usuario");
-					System.out.println(usuario.getNomeCompleto());
 					d.EnviarEmail(usuario, sala);
 
 					if(status == 1)

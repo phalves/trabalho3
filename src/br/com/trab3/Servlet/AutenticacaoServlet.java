@@ -2,6 +2,7 @@ package br.com.trab3.Servlet;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import br.com.trab3.Controller.DataController;
+import br.com.trab3.Model.Sala;
 import br.com.trab3.Model.Usuario;
 
 /**
@@ -76,8 +78,11 @@ public class AutenticacaoServlet extends HttpServlet {
 				usuario = d.autentica(username, senha);
 				if (usuario!=null)
 				{
+					ArrayList<Sala> salas;
+					salas = d.getSalas();
+					session.setAttribute("salas", salas);
 					session.setAttribute("usuario", usuario);
-					request.getRequestDispatcher("PedidoReserva.jsp").forward(request, response);
+					request.getRequestDispatcher("frameset.jsp").forward(request, response);
 				}
 								
 				else{

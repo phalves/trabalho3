@@ -7,34 +7,41 @@
 <title>Autenticação</title>
 </head>
 <body>
-<fieldset>
+<table>
+	<tr><td>
+	<fieldset>
 		<legend>Autenticação</legend>
-		<table>
-		<form action="AutenticacaoServlet" method="post">
-			<tr>
-				<td align="right">
-					Usuário:
-				</td>
-				<td>
-					<input type="text" name="username"/><br>
-				</td>
-			</tr>
-			<tr>
-				<td align="right">
-					Senha:
-				</td>
-				<td>
-					<input type="password" name="senha"/><br>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<button type="submit" name="tipo" value="adm">Entrar</button>
-				</td>
-			</tr>	
-		</form>
-		</table>
-</fieldset>
-
+	<table>
+	
+	<form action="AutenticacaoServlet" method="post">
+			
+		
+		<tr>
+			<td align="right">
+				Usuário:
+			</td>
+			<td>
+				<input type="text" name="username"/><br>
+			</td>
+		</tr>
+		<tr>
+			<td align="right">
+				Senha:
+			</td>
+			<td>
+				<input type="password" name="senha"/><br>
+			</td>
+		</tr>
+		<tr>
+			<td  colspan="2" align="center">
+				<button type="submit" name="tipo" value="adm">Entrar</button>
+			</td>
+		</tr>
+			
+		
+	</form>
+	</table>
+	</fieldset></td></tr>
+</table>
 </body>
 </html>
