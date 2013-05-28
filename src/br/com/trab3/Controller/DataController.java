@@ -6,6 +6,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Properties;
+
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 import br.com.trab3.Model.Conexao;
 import br.com.trab3.Model.Sala;
@@ -48,7 +57,7 @@ public class DataController {
 		sql = "CREATE TABLE Reserva (Id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, Relacao integer, Id_Sala INT NOT NULL, Id_Usuario INT NOT NULL, Data Date, Confirmado bool, FOREIGN KEY (Id_Sala) REFERENCES Sala(Id_Sala), FOREIGN KEY (Id_Usuario) REFERENCES Usuario(Id_Usuario));";
 		stmt.execute(sql);
 
-		sql = "INSERT INTO Usuario (NomeCompleto, Senha, Administrador) value ('adm','adm','1');";
+		sql = "INSERT INTO Usuario (Username, Email , NomeCompleto, Senha, Administrador) value ('adm','inf1407envia@gmail.com','adm','adm','1');";
 		stmt.execute(sql);
 
 		stmt.close();
@@ -216,5 +225,50 @@ public class DataController {
 		con.close();
 		
 		return null;
+	}
+	
+	public void EnviarEmail (Usuario usuario,String sala)
+	{
+		// Recipient's email ID needs to be mentioned.
+		String to = usuario.getEmail();
+
+		// Sender's email ID needs to be mentioned
+		final String from = "inf1407envia@gmail.com";
+		final String password = "Web2013#";
+
+		// Get system properties
+		Properties props = System.getProperties();
+
+		props.put("mail.smtp.host", "smtp.gmail.com");
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.port", "465");
+		props.put("mail.smtp.socketFactory.port", "465");
+		props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+
+		// Get the default Session object.
+		Session session = Session.getInstance(props,
+				new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication("inf1407envia@gmail.com", password);
+			}
+		});
+
+
+		try{
+			Message message = new MimeMessage(session);
+			message.setFrom(new InternetAddress(from));
+			message.setRecipients(Message.RecipientType.TO,
+					InternetAddress.parse(to));
+			message.setSubject("Pedido de reserva de sala");
+			message.setText("O usuario "+usuario.getNomeCompleto()+" deseja reservar a sala "+ sala + "..");
+
+			Transport.send(message);
+
+			System.out.println("Enviado...");
+
+		} catch (MessagingException e) {
+			throw new RuntimeException(e);
+		}
+
 	}
 }
