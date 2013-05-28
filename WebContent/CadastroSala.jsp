@@ -1,3 +1,4 @@
+<%@page import="java.lang.ProcessBuilder.Redirect"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1" import="br.com.trab3.Model.*" import="java.util.*" errorPage="errorpage.jsp"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -9,8 +10,14 @@
 </head>
 <body>
 
+<c:if test="${sessionScope.usuario.getAdministrador() != 1 }">
+	<c:redirect url="errorpage.jsp"/>
+</c:if>
+
 <h1>Cadastro de Salas</h1>
+
 <a href="AtividadesAdministrativas.jsp">Inicio</a> | <a href="Logout">Logout</a>
+
 <form action="SalaHandler" method="post">
 	<table >
 		<tr><td>
