@@ -38,7 +38,6 @@ public class UsuarioHandler extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("doPost UsuarioHandler 0");
 		
 		String tipo = request.getParameter("tipo");
 		String mensagem;
@@ -47,7 +46,6 @@ public class UsuarioHandler extends HttpServlet {
 
 		if(tipo == null)
 		{
-			System.out.println("doPost UsuarioHandler 1");
 			
 			try {
 				usuarios = d.getUsuarios();
@@ -62,8 +60,6 @@ public class UsuarioHandler extends HttpServlet {
 		{
 			if(tipo.equals("usuario"))
 			{
-				System.out.println("doPost UsuarioHandler 2");
-
 				try {
 					int status;
 
@@ -73,8 +69,8 @@ public class UsuarioHandler extends HttpServlet {
 					usuario.setSenha(request.getParameter("senha"));
 					usuario.setNomeCompleto(request.getParameter("nomecompleto"));
 					usuario.setEmail(request.getParameter("email"));
-					usuario.setAdministrador(0); // TODO pegar valor do dropdown, tentativa abaixo mas esta vindo null do get
-					// usuario.setAdministrador(Integer.parseInt(request.getParameter("administrador")));
+					usuario.setAdministrador(Integer.parseInt(request.getParameter("administrador")));
+					
 					
 					status = d.criaUsuario(usuario);
 					usuarios = d.getUsuarios();
@@ -95,8 +91,6 @@ public class UsuarioHandler extends HttpServlet {
 			}
 			else
 			{
-				System.out.println("doPost UsuarioHandler 3");
-
 				try {
 					int status;
 					int idUsuario;
