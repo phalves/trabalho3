@@ -56,7 +56,7 @@ public class SalaHandler extends HttpServlet {
 
 			} catch (ClassNotFoundException | SQLException e) {
 				System.err.println("Erro ao tentar consultar tabela: " + e.toString());
-				request.getRequestDispatcher("erropage.jsp").forward(request, response);
+				request.getRequestDispatcher("errorpage.jsp").forward(request, response);
 			}
 		}
 		else
@@ -86,7 +86,7 @@ public class SalaHandler extends HttpServlet {
 
 				} catch (ClassNotFoundException | SQLException e) {
 					System.err.println("Erro ao tentar consultar tabela: " + e.toString());
-					request.getRequestDispatcher("erropage.jsp").forward(request, response);
+					request.getRequestDispatcher("errorpage.jsp").forward(request, response);
 				}
 			}
 			else
@@ -110,7 +110,7 @@ public class SalaHandler extends HttpServlet {
 				}
 				catch (ClassNotFoundException | SQLException e) {
 					System.err.println("Erro ao tentar criar tabela: " + e.toString());
-					request.getRequestDispatcher("erropage.jsp").forward(request, response);
+					request.getRequestDispatcher("errorpage.jsp").forward(request, response);
 				}
 			}
 		}
