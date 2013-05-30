@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -25,6 +27,47 @@ public class UsuarioHandler extends HttpServlet {
 	 */
 	public UsuarioHandler() {
 		super();
+	}
+	
+	//
+	// Retorna um booleano indicando se o request tem algum campo vazio
+	//
+	private boolean hasEmptyFields( HttpServletRequest request )
+	{
+		ArrayList<String> list = new ArrayList<String>();
+		list.add("username");
+		list.add("senha");
+		list.add("confirmacaosenha");
+		list.add("nomecompleto");
+		list.add("email");
+		list.add("administrador");
+		
+		for ( String e : list )
+		{
+			String var = (String)request.getParameter(e);
+			
+			if (var == null)
+			{
+				return true;
+			}
+			if (var.toString().length() <= 0)
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	private boolean isValidEmailAddress(String email) {
+		   boolean result = true;
+		   try {
+		      InternetAddress emailAddr = new InternetAddress(email);
+		      emailAddr.validate();
+		   } catch (AddressException ex) {
+		      result = false;
+		   }
+		   return result;
 	}
 
 	/**
@@ -62,6 +105,32 @@ public class UsuarioHandler extends HttpServlet {
 			{
 				try {
 					int status;
+					
+					// Valida se todos os campos foram preenchidos
+					if ( this.hasEmptyFields(request) )
+					{
+						request.setAttribute("mensagem", "Todos os campos são de preenchimento obrigatório.");
+						request.getRequestDispatcher("errorpage.jsp").forward(request, response);
+						return;
+					}
+					
+					// Verifica se as senhas conferem antes de criar um novo objeto Usuário
+					if ( !request.getParameter("senha").equals(request.getParameter("confirmacaosenha")) )
+					{
+						request.setAttribute("mensagem", "A senha e a confirmação de senha informadas não conferem.");
+						request.getRequestDispatcher("errorpage.jsp").forward(request, response);
+						return;
+					}
+					
+					String emailString = request.getParameter("email").toString();
+					
+					// Valida se o email é válido
+					if ( !this.isValidEmailAddress(emailString) )
+					{
+						request.setAttribute("mensagem", "O email '" + emailString + "' informado não é válido.");
+						request.getRequestDispatcher("errorpage.jsp").forward(request, response);
+						return;
+					}					
 
 					Usuario usuario = new Usuario();
 					
@@ -86,7 +155,7 @@ public class UsuarioHandler extends HttpServlet {
 
 				} catch (ClassNotFoundException | SQLException e) {
 					System.err.println("Erro ao tentar criar tabela: " + e.toString());
-					request.getRequestDispatcher("erro.jsp").forward(request, response);
+					request.getRequestDispatcher("errorpage.jsp").forward(request, response);
 				}
 			}
 			else
@@ -106,11 +175,12 @@ public class UsuarioHandler extends HttpServlet {
 					else
 						mensagem = "Algo errado aconteceu";
 
+					request.setAttribute("mensagem", mensagem);
 					request.getRequestDispatcher("CadastroUsuario.jsp").forward(request, response);
 				}
 				catch (ClassNotFoundException | SQLException e) {
 					System.err.println("Erro ao tentar criar tabela: " + e.toString());
-					request.getRequestDispatcher("erro.jsp").forward(request, response);
+					request.getRequestDispatcher("errorpage.jsp").forward(request, response);
 				}
 			}
 		}
