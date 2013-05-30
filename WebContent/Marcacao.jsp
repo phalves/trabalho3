@@ -118,7 +118,7 @@
 					<table class="table table-bordered table-hover" width="100%">
 						<thead>
 							<tr>
-								<th>Horário</th>
+								<th width="9px">Horário</th>
 								<th>SEG</th>
 								<th>TER</th>
 								<th>QUA</th>
