@@ -49,7 +49,6 @@ public class AutenticacaoServlet extends HttpServlet {
 		DataController d = new DataController();
 		HttpSession session = request.getSession();
 		
-		
 		try{
 			if(tipo.equals("adm"))
 			{
@@ -63,13 +62,13 @@ public class AutenticacaoServlet extends HttpServlet {
 					}
 					else
 					{
-						mensagem = "VocÍ n„o È administrador..";
+						mensagem = "Voc√™ n√£o √© administrador..";
 						request.setAttribute("mensagem", mensagem);
 						request.getRequestDispatcher("Resultado.jsp").forward(request, response);
 					}
 				}
 				else{
-					mensagem = "Usu·rio ou senha incorrtetos..";
+					mensagem = "Usu√°rio ou senha incorrtetos..";
 					request.setAttribute("mensagem", mensagem);
 					request.getRequestDispatcher("Resultado.jsp").forward(request, response);
 				}
@@ -86,7 +85,7 @@ public class AutenticacaoServlet extends HttpServlet {
 				}
 								
 				else{
-					mensagem = "Usu·rio ou senha incorrtetos..";
+					mensagem = "Usu√°rio ou senha incorrtetos..";
 					request.setAttribute("mensagem", mensagem);
 					request.getRequestDispatcher("Resultado.jsp").forward(request, response);
 				}

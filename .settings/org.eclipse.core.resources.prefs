@@ -1,4 +1,5 @@
 eclipse.preferences.version=1
 encoding//WebContent/CadastroUsuario.jsp=UTF-8
 encoding//src/br/com/trab3/Controller/DataController.java=UTF-8
+encoding//src/br/com/trab3/Servlet/AutenticacaoServlet.java=UTF-8
 encoding//src/br/com/trab3/Servlet/UsuarioHandler.java=UTF-8

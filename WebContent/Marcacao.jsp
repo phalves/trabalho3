@@ -10,7 +10,7 @@
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/jquery-ui.min.js"></script>
     <link rel="stylesheet" type="text/css" media="screen" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/themes/base/jquery-ui.css">
 	<script type="text/javascript">
-		function post_to_url(path, params, method) {
+		function postToUrl(path, params, method) {
 		    method = method || "post"; // Set method to post by default if not specified.
 	
 		    // The rest of this code assumes you are not using a library.
@@ -51,13 +51,23 @@
 						onSelect : function(dateText, inst) {
 							var date = $(this).datepicker('getDate');
 							
-							startDate = new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay() + 1);
-							endDate = new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay() + 7);
+							var weekDay = date.getDay();
+							var delta = (weekDay == 0) ? 7 : 0;
+							
+							startDate = new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay() + 1 - delta);
+							endDate = new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay() + 7 - delta);
 							
 							var dateFormat = inst.settings.dateFormat || $.datepicker._defaults.dateFormat;
 							
 							$('#startDate').text($.datepicker.formatDate(dateFormat, startDate, inst.settings));
 							$('#endDate').text($.datepicker.formatDate(dateFormat, endDate, inst.settings));
+							
+							console.log($.datepicker.formatDate(dateFormat, startDate, inst.settings));
+							console.log($.datepicker.formatDate(dateFormat, endDate, inst.settings));
+							console.log("\n");
+							
+							postToUrl("MarcacaoServlet", null);
+							
 							selectCurrentWeek();
 						},
 						beforeShowDay : function(date) {

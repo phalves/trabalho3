@@ -46,6 +46,11 @@ public class MarcacaoServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		
+		System.out.print("Post recebido");
+		request.getRequestDispatcher("Marcacao.jsp").forward(request, response);
+		
+		if(true) return;
+		
 		String opcao = request.getParameter("opcao");
 	
 		DataController d = new DataController();
@@ -56,7 +61,7 @@ public class MarcacaoServlet extends HttpServlet {
 		
 		Date dataFormatada;
 		
-		ArrayList<Reserva> reservas = (ArrayList<Reserva>) session.getAttribute("reservas");
+		ArrayList<Reserva> reservas = (ArrayList<Reserva>)session.getAttribute("reservas");
 		
 		if(reservas == null)
 			reservas = new ArrayList<Reserva>();
