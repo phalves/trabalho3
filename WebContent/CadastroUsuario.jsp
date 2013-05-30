@@ -4,51 +4,105 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<link href="<c:url value="/"/>bootstrap.css" rel="stylesheet"/>
-<title>Administração de Usuários</title>
+	<link href="<c:url value="/"/>bootstrap.css" rel="stylesheet"/>
+	<title>Administração de Usuários</title>
 </head>
 <body>
 
-<h1>Cadastro de Usuários</h1>
+	<div class="navbar navbar-inverse">
+		<div class="navbar-inner">
+			<a class="brand" href="#">Sistema de Reserva de Salas</a>
+			<ul class="nav">
+				<li><a href="AtividadesAdministrativas.jsp">Início</a></li>
+				<li><a href="Logout">Logout</a></li>
+			</ul>
+		</div>
+	</div>
 
-<a href="AtividadesAdministrativas.jsp">Inicio</a> | <a href="Logout">Logout</a>
-
-<form action="UsuarioHandler" method="post">
-	<table >
-		<tr><td>
-			<fieldset>
-			<legend>Novo usuário</legend>
-					Username:
-					<input type="text" name="username"/><br>
-					Senha:
-					<input type="password" name="senha"/><br>
-					Confirmação de Senha:
-					<input type="password" name="confirmacaosenha"/><br>
-					Nome Completo:
-					<input type="text" name="nomecompleto"/><br>
-					E-mail:
-					<input type="text" name="email"/><br>
-					Papel:
-					<select name="administrador">
-						<option value="0">Usuário</option>
-						<option value="1">Administrador</option>
-					</select><br>
-					<button type="submit" name="tipo" value="usuario">Cadastrar</button>
-			</fieldset>
-		</td>
-		<td>
-			<fieldset>
-				<legend>Lista de  usuários Cadastrados</legend>
-					<table border="1">
-						<tr><td>Remover</td><td>Nome Completo</td></tr>
-						<c:forEach var="usuario" items = "${requestScope.usuarios}">
-							<tr><td><button type="submit" name="tipo" value="${usuario.getIdUsuario() }">X</button> </td><td><c:out value="${usuario.getNomeCompleto() }"></c:out></td></tr>
-						</c:forEach>
-					</table>
-			</fieldset>
-		</tr>
-	</table>
-</form>
+	<div class="container">
+		<div class="row">
+			<div class="page-header">
+				<h1 style="text-align: center">Cadastro de Usuários</h1>
+			</div>
+			<div class="span12">
+				<div class="row">
+					<div class="span6 offset2">
+						<form action="UsuarioHandler" method="post" class="form-horizontal">
+							<div class="control-group">
+								<label class="control-label" for="username">Username</label>
+								<div class="controls">
+									<input type="text" name="username" placeholder="Username">
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="senha">Senha</label>
+								<div class="controls">
+									<input type="password" name="senha" placeholder="Senha">
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="senha">Confirmação de
+									Senha</label>
+								<div class="controls">
+									<input type="password" name="confirmacaosenha" placeholder="Confirmação de Senha">
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="nomecompleto">Nome
+									Completo</label>
+								<div class="controls">
+									<input type="text" name="nomecompleto" placeholder="Nome Completo">
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="email">Email</label>
+								<div class="controls">
+									<input type="text" name="email" placeholder="Email">
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="administrador">Papel</label>
+								<div class="controls">
+									<select name="administrador">
+										<option value="0">Usuário</option>
+										<option value="1">Administrador</option>
+									</select>
+								</div>
+								<div class="control-group">
+									<div class="controls">
+										<label class="checkbox"></label>
+										<button class="btn btn-primary" type="submit" name="tipo"
+											value="usuario">Cadastrar</button>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="span4">
+						<form action="UsuarioHandler" method="post"
+							class="form-horizontal">
+							<table class="table table-bordered">
+								<tr>
+									<th>Usuários Cadastrados</th>
+								</tr>
+								<tr>
+									<td>Remover</td>
+									<td>Nome Completo</td>
+								</tr>
+								<c:forEach var="usuario" items="${requestScope.usuarios}">
+									<tr>
+										<td><button class="btn btn-danger" type="submit"
+												name="tipo" value="${usuario.getIdUsuario() }">X</button></td>
+										<td><c:out value="${usuario.getNomeCompleto() }"></c:out></td>
+									</tr>
+								</c:forEach>
+							</table>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
 </body>
 </html>

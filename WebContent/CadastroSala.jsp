@@ -5,41 +5,76 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Administração de Salas</title>
+	<link href="<c:url value="/"/>bootstrap.css" rel="stylesheet"/>	
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	<title>Administração de Salas</title>
 </head>
 <body>
+	<c:if test="${sessionScope.usuario.getAdministrador() != 1 }">
+		<c:redirect url="errorpage.jsp"/>
+	</c:if>
 
-<c:if test="${sessionScope.usuario.getAdministrador() != 1 }">
-	<c:redirect url="errorpage.jsp"/>
-</c:if>
+	<div class="navbar navbar-inverse">
+		<div class="navbar-inner">
+			<a class="brand" href="#">Sistema de Reserva de Salas</a>
+			<ul class="nav">
+				<li><a href="AtividadesAdministrativas.jsp">Início</a></li>
+				<li><a href="Logout">Logout</a></li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="container">
+		<div class="row">
+			<div class="page-header">
+				<h1 style="text-align: center">Cadastro de Salas</h1>
+			</div>
+			<div class="span12">
+				<div class="row">
+					<div class="span8">
+						<form action="SalaHandler" method="post" class="form-horizontal">
+							<div class="control-group">
+								<label class="control-label" for="local">Nome da Sala</label>
+								<div class="controls">
+									<input type="text" name="local" placeholder="Nome da Sala">
+								</div>
+							</div>
+							<div class="control-group">
+								<div class="controls">
+									<label class="checkbox"></label>
+									<button class="btn btn-primary" type="submit" name="tipo" value="sala">Cadastrar</button>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="span4">
+						<form action="SalaHandler" method="post"
+							class="form-horizontal">
+							<table class="table table-bordered">
+								<tr>
+									<th>Salas Cadastradas</th>
+								</tr>
+								<tr>
+									<td>Remover</td>
+									<td>Sala</td>
+								</tr>
+								<c:forEach var="sala" items="${requestScope.salas}">
+									<tr>
+										<td>
+											<button class="btn btn-danger" type="submit" name="tipo" value="${sala.getId() }">X</button>
+										</td>
+										<td>
+											<p><c:out value="${sala.getLocal()}"></c:out></p>
+										</td>
+									</tr>
+								</c:forEach>
+							</table>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
-<h1>Cadastro de Salas</h1>
-
-<a href="AtividadesAdministrativas.jsp">Inicio</a> | <a href="Logout">Logout</a>
-
-<form action="SalaHandler" method="post">
-	<table >
-		<tr><td>
-			<fieldset>
-			<legend>Nova sala</legend>
-					Nome da Sala:
-					<input type="text" name="local"/>
-					<button type="submit" name="tipo" value="sala">Cadastrar</button>
-			</fieldset>
-		</td>
-		<td>
-			<fieldset>
-				<legend>Lista de salas cadastradas</legend>
-					<table border="1">
-						<tr><td>Cancelar</td><td>Sala</td></tr>
-						<c:forEach var="sala" items = "${requestScope.salas}">
-							<tr><td><button type="submit" name="tipo" value="${sala.getId() }">X</button> </td><td><c:out value="${sala.getLocal() }"></c:out></td></tr>
-						</c:forEach>
-					</table>
-			</fieldset>
-		</tr>
-	</table>
-</form>
 </body>
 </html>
