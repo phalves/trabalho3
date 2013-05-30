@@ -1,6 +1,7 @@
 package br.com.trab3.Controller;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,6 +18,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import br.com.trab3.Model.Conexao;
+import br.com.trab3.Model.Reserva;
 import br.com.trab3.Model.Sala;
 import br.com.trab3.Model.Usuario;
 
@@ -270,5 +272,41 @@ public class DataController {
 			throw new RuntimeException(e);
 		}
 
+	}
+	
+	public void insereRelacao(ArrayList<Reserva> reservas) throws ClassNotFoundException, SQLException {
+		int pos = 1;
+		int maxRelacao;
+		con = Conexao.conexao();
+		sql = "select Relacao from reserva order by Relacao DESC LIMIT 1;";
+		
+		pstmt = con.prepareStatement(sql);			
+		resultSet = pstmt.executeQuery();
+		
+		if(!resultSet.next())
+		{
+			maxRelacao = 0;
+		}
+		else
+		{
+			maxRelacao = (Integer.parseInt(resultSet.getString("Relacao")))+1;
+		}
+		
+		for(Reserva reserva : reservas)
+		{
+			pos = 1;
+			
+			sql = "Insert into reserva (Relacao, Id_Sala, Id_Usuario, Data, Confirmado) values (?, ?, ?, ?,?);";
+			pstmt = con.prepareStatement(sql);
+			java.sql.Date sqldate = new java.sql.Date(reserva.getData().getTime());
+			
+			pstmt.setInt(pos++, maxRelacao);
+			pstmt.setInt(pos++, reserva.getIdSala());
+			pstmt.setInt(pos++, reserva.getIdUsuario());
+			pstmt.setDate(pos++, sqldate);
+			pstmt.setInt(pos++, reserva.getConfirmado());
+
+			pstmt.executeUpdate();			
+		}
 	}
 }

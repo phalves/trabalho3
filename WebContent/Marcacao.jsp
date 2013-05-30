@@ -10,6 +10,35 @@
 <body>
 <h1>Em construção</h1>
 
+<form method="post" action="MarcacaoServlet">
+
+	dia
+	<select name="dia" >
+		<option  value="1">1</option>
+		<option  value="2">2</option>
+	</select><br/>
+	hora
+	<select name="hora">
+		<option value="1">1</option>
+		<option value="2">2</option>
+	</select><br/>
+	
+	sala
+	<select name="sala">
+		<c:forEach var="sala" items = "${sessionScope.salas}">
+			<option  value="${sala.getId() }"><c:out value="${sala.getLocal() }"></c:out></option>
+		</c:forEach>
+	</select><br/>
+	
+	Usuário: <c:out value="${usuario.getNomeCompleto() }"></c:out><br>
+	
+	<button type="submit" name="opcao" value="adicionar">Adicionar</button><br>
+	<Button type="submit" name="opcao" value="marcar">Marcar</Button>
+
+</form>
+
+<br><br><br><br>
+
 <table border=1>
 	<tr>
 		<td valign="top">

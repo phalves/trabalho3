@@ -82,7 +82,7 @@ public class AutenticacaoServlet extends HttpServlet {
 					salas = d.getSalas();
 					session.setAttribute("salas", salas);
 					session.setAttribute("usuario", usuario);
-					request.getRequestDispatcher("frameset.jsp").forward(request, response);
+					request.getRequestDispatcher("Marcacao.jsp").forward(request, response);
 				}
 								
 				else{
