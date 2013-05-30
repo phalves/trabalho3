@@ -49,6 +49,9 @@
 						showOtherMonths : true,
 						selectOtherMonths : true,
 						onSelect : function(dateText, inst) {
+							//
+							// Detecta a data da semana selecionada
+							//
 							var date = $(this).datepicker('getDate');
 							
 							var weekDay = date.getDay();
@@ -59,14 +62,31 @@
 							
 							var dateFormat = inst.settings.dateFormat || $.datepicker._defaults.dateFormat;
 							
-							$('#startDate').text($.datepicker.formatDate(dateFormat, startDate, inst.settings));
-							$('#endDate').text($.datepicker.formatDate(dateFormat, endDate, inst.settings));
+							//
+							// Apenas para debugging
+							//
+							//$('#startDate').text($.datepicker.formatDate(dateFormat, startDate, inst.settings));
+							//$('#endDate').text($.datepicker.formatDate(dateFormat, endDate, inst.settings));
 							
-							console.log($.datepicker.formatDate(dateFormat, startDate, inst.settings));
-							console.log($.datepicker.formatDate(dateFormat, endDate, inst.settings));
-							console.log("\n");
+							//console.log($.datepicker.formatDate(dateFormat, startDate, inst.settings));
+							//console.log($.datepicker.formatDate(dateFormat, endDate, inst.settings));
+							//console.log("\n");
 							
-							postToUrl("MarcacaoServlet", null);
+							// Pega o id da Sala selecionada
+							var e = document.getElementById("salaPicker");
+							var selectedSalaId = e.options[e.selectedIndex].value;
+							
+							// Pega a data da segunda-feira da semana selecionada como string
+							var selectedDateString = $.datepicker.formatDate(dateFormat, startDate, inst.settings);
+							
+							// Cria o dicionario de parametros
+							var parameters = {
+									"idSala" : selectedSalaId,
+									"date" : selectedDateString,
+							};
+							
+							// Faz o request pro servlet passando os parametros acima
+							postToUrl("MarcacaoServlet", parameters);
 							
 							selectCurrentWeek();
 						},
@@ -109,7 +129,7 @@
 		<div class="row">
 			<div class="span4">
 				<p>1 - Selecione a Unidade:</p>
-				<select name="tipo">
+				<select name="tipo" id="salaPicker">
 					<c:forEach var="sala" items="${sessionScope.salas}">
 						<option value="${sala.getId() }">
 							<c:out value="${sala.getLocal() }"></c:out>
@@ -123,6 +143,42 @@
 					<li>X - Reserva confirmada</li>
 					<li>? - Pedido de reserva em análise</li>
 				</ul>
+				<form action="" method="post" class="form">
+					<fieldset>
+						<legend>Informações da Reserva</legend>
+						<input type="text" placeholder="Responsável"> 
+						<input type="text"placeholder="Motivo"> 
+						<input type="text" placeholder="Projeto">
+						<textarea rows="2" placeholder="Descrição"></textarea>
+						<table class="table table-condensed">
+							<thead>
+								<tr>
+									<th>Dia</th>
+									<th>Horário</th>
+									<th> </th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>01/09/2013</td>
+									<td>08:00 - 09:00</td>
+									<td><button class="btn btn-small btn-danger">X</button></td>
+								</tr>
+								<tr>
+									<td>01/09/2013</td>
+									<td>09:00 - 10:00</td>
+									<td><button class="btn btn-small btn-danger">X</button></td>
+								</tr>
+								<tr>
+									<td>01/09/2013</td>
+									<td>11:00 - 12:00</td>
+									<td><button class="btn btn-small btn-danger">X</button></td>
+								</tr>
+							</tbody>
+						</table>
+						<button class="btn btn-primary" type="submit">Enviar pedido</button>
+					</fieldset>
+				</form>
 			</div>
 			<div class="span8">
 					<table class="table table-bordered table-hover" width="100%">

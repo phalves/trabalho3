@@ -79,8 +79,7 @@
 						</form>
 					</div>
 					<div class="span4">
-						<form action="UsuarioHandler" method="post"
-							class="form-horizontal">
+						<form action="UsuarioHandler" method="post" class="form-horizontal">
 							<table class="table table-bordered">
 								<tr>
 									<th>Usuários Cadastrados</th>

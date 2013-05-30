@@ -46,7 +46,10 @@ public class MarcacaoServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		
-		System.out.print("Post recebido");
+		System.out.println("Request POST recebido");
+		System.out.println("Date recebido: " + request.getParameter("date"));
+		System.out.println("idSala recebido: " + request.getParameter("idSala"));
+		
 		request.getRequestDispatcher("Marcacao.jsp").forward(request, response);
 		
 		if(true) return;
