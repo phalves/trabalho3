@@ -10,11 +10,12 @@
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/jquery-ui.min.js"></script>
     <link rel="stylesheet" type="text/css" media="screen" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/themes/base/jquery-ui.css">
 	<script type="text/javascript">
+		//
+		// Cria um request POST a partir de um elemento form
+		//
 		function postToUrl(path, params, method) {
 		    method = method || "post"; // Set method to post by default if not specified.
 	
-		    // The rest of this code assumes you are not using a library.
-		    // It can be made less wordy if you use one.
 		    var form = document.createElement("form");
 		    form.setAttribute("method", method);
 		    form.setAttribute("action", path);
