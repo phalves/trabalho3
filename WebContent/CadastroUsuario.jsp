@@ -8,6 +8,8 @@
 </head>
 <body>
 
+<h1>Cadastro de Usuários</h1>
+
 <a href="AtividadesAdministrativas.jsp">Inicio</a> | <a href="Logout">Logout</a>
 
 <form action="UsuarioHandler" method="post">
