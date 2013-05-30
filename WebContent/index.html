@@ -3,20 +3,29 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Reserva de Sala</title>
+<link href="/trabalho3/bootstrap.css" rel="stylesheet"/>
 </head>
 <body>
 
-<h1>Reserva de Sala</h1>
 
-<form action="AlteraStatusServlet" method="post">
-	<ul>
-		<li><a href="AutenticacaoUsuario.jsp">Usuario</a><br></li>
-		<li><a href="AutenticacaoAdm.jsp">Administrador</a><br><br></li>
-	</ul>
-</form>
 
-<hr>
-<a href="CriaTabela">Criar banco vazio</a>
+<div class="container">
+  <div class="row">
+  	<h1 style="text-align: center">Sistema de Reserva de Salas</h1>
+  	<br>
+  	<div class="span4 offset4">
+  		<form action="AlteraStatusServlet" method="post">
+  		<p>Entrar no sistema como:</p>
+		<a href="AutenticacaoUsuario.jsp" class="btn btn-primary">Usuario</a>
+		<a href="AutenticacaoAdm.jsp" class="btn btn-primary">Administrador</a>
+		<hr>
+		<p>Outra opções:</p>
+  		<a href="CriaTabela" class="btn">Criar banco vazio</a>	
+  		</form>
+  	</div>
+  </div>
+  
+</div>
 
 </body>
 </html>
