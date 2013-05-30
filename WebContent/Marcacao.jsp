@@ -10,6 +10,7 @@
 <body>
 <h1>Em construção</h1>
 
+<table><tr><td>
 <form method="post" action="MarcacaoServlet">
 
 	dia
@@ -34,8 +35,21 @@
 	
 	<button type="submit" name="opcao" value="adicionar">Adicionar</button><br>
 	<Button type="submit" name="opcao" value="marcar">Marcar</Button>
+	</td></tr>
+	<tr><td>
+	<fieldset>
+				<legend>Lista de salas cadastradas</legend>
+					<table border="1">
+						<tr><td>Cancelar</td><td>Sala</td></tr>
+						<c:forEach var="reserva" items = "${sessionScope.reservas}">
+							<tr><td><c:out value="${reserva.getIdSala() }"></c:out></td></tr>
+						</c:forEach>
+					</table>
+	</fieldset>
+	</td></tr>
 
 </form>
+</table>
 
 <br><br><br><br>
 
