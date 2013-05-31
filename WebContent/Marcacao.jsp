@@ -109,7 +109,7 @@
 							selectCurrentWeek();
 						}
 					});
-	
+			
 			$('.week-picker .ui-datepicker-calendar tr').live('mousemove',
 					function() {
 						$(this).find('td a').addClass('ui-state-hover');
@@ -153,7 +153,7 @@
 				</ul>
 				<form action="" method="post" class="form">
 					<fieldset>
-						<legend>Informações da Reserva</legend>
+						<legend>Informações da Sua Reserva</legend>
 						<input type="text" placeholder="Responsável"> 
 						<input type="text"placeholder="Motivo"> 
 						<input type="text" placeholder="Projeto">

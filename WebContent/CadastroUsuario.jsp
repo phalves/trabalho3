@@ -81,20 +81,31 @@
 					<div class="span4">
 						<form action="UsuarioHandler" method="post" class="form-horizontal">
 							<table class="table table-bordered">
-								<tr>
-									<th>Usuários Cadastrados</th>
-								</tr>
-								<tr>
-									<td>Remover</td>
-									<td>Nome Completo</td>
-								</tr>
-								<c:forEach var="usuario" items="${requestScope.usuarios}">
+								<colgroup>
+									<col span="1" style="width: 95%;">
+									<col span="1" style="width: 5%;">
+								</colgroup>
+								<thead>
 									<tr>
-										<td><button class="btn btn-danger" type="submit"
-												name="tipo" value="${usuario.getIdUsuario() }">X</button></td>
-										<td><c:out value="${usuario.getNomeCompleto() }"></c:out></td>
+										<th>Usuários Cadastrados</th>
 									</tr>
-								</c:forEach>
+									<tr>
+										<th>Nome Completo</th>
+										<th>Remover</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach var="usuario" items="${requestScope.usuarios}">
+										<tr>
+											<td>
+												<c:out value="${usuario.getNomeCompleto() }"></c:out>
+											</td>
+											<td>
+												<button class="btn btn-danger" type="submit"name="tipo" value="${usuario.getIdUsuario() }">X</button>
+											</td>
+										</tr>
+									</c:forEach>
+								</tbody>
 							</table>
 						</form>
 					</div>
