@@ -83,8 +83,12 @@
 							// Cria o dicionario de parametros
 							var parameters = {
 									"idSala" : selectedSalaId,
-									"date" : selectedDateString,
+									"day" : startDate.getDate(),
+									"month" : startDate.getMonth()+1,
+									"year" : startDate.getFullYear()
 							};
+							
+							console.log(selectedDateString);
 							
 							// Faz o request pro servlet passando os parametros acima
 							postToUrl("MarcacaoServlet", parameters);
