@@ -83,9 +83,12 @@
 							// Cria o dicionario de parametros
 							var parameters = {
 									"idSala" : selectedSalaId,
-									"day" : startDate.getDate(),
-									"month" : startDate.getMonth()+1,
-									"year" : startDate.getFullYear()
+									"startDay" : startDate.getDate(),
+									"startMonth" : startDate.getMonth()+1,
+									"startYear" : startDate.getFullYear(),
+									"endDay" : endDate.getDate(),
+									"endMonth" : endDate.getMonth()+1,
+									"endYear" : endDate.getFullYear()
 							};
 							
 							console.log(selectedDateString);

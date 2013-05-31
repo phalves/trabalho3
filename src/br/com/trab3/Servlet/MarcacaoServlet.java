@@ -47,7 +47,8 @@ public class MarcacaoServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		
 		System.out.println("Request POST recebido");
-		System.out.println("Data recebida: " + request.getParameter("day") + " " + request.getParameter("month") + " " + request.getParameter("year"));
+		System.out.println("Data Inicio recebida: " + request.getParameter("startDay") + " " + request.getParameter("startMonth") + " " + request.getParameter("startYear"));
+		System.out.println("Date Fim recebida: " + request.getParameter("endDay") + " " + request.getParameter("endMonth") + " " + request.getParameter("endYear"));
 		System.out.println("idSala recebido: " + request.getParameter("idSala"));
 		
 		request.getRequestDispatcher("Marcacao.jsp").forward(request, response);
