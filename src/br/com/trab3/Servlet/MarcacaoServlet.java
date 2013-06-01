@@ -37,7 +37,7 @@ public class MarcacaoServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		doPost(request, response);
 	}
 
 	/**
@@ -51,17 +51,45 @@ public class MarcacaoServlet extends HttpServlet {
 		System.out.println("Date Fim recebida: " + request.getParameter("endDay") + " " + request.getParameter("endMonth") + " " + request.getParameter("endYear"));
 		System.out.println("idSala recebido: " + request.getParameter("idSala"));
 		
-		request.getRequestDispatcher("Marcacao.jsp").forward(request, response);
-		
-		if(true) return;
+		String mensagem;
 		
 		String opcao = request.getParameter("opcao");
 	
 		DataController d = new DataController();
 
-		int dia = Integer.parseInt(request.getParameter("dia"));
-		int hora = Integer.parseInt(request.getParameter("hora"));
-		int idSala = Integer.parseInt(request.getParameter("sala"));
+		String dia = (request.getParameter("startDay"));
+		String mes = (request.getParameter("startMonth"));
+		String ano = (request.getParameter("startYear"));
+		String hora = (request.getParameter("hora"));
+		String idSala = (request.getParameter("idSala"));
+		int flag= -1;
+		
+		if(dia!=null)
+		{
+			session.setAttribute("dia", dia);
+			session.setAttribute("mes", mes);
+			session.setAttribute("ano", ano);
+			session.setAttribute("idSala", idSala);
+			System.out.println("Entrou -> dia="+dia);
+			session.removeAttribute("mensagem");
+			flag=0;
+		}
+		else if(flag==0)
+		{
+			dia = (String)session.getAttribute("dia");
+			mes = (String)session.getAttribute("mes");
+			ano = (String)session.getAttribute("ano");
+			idSala = (String)session.getAttribute("idSala");
+			flag=1;
+		}
+		else 
+		{
+			dia = request.getParameter("dia");
+			mes = (String)session.getAttribute("mes");
+			ano = (String)session.getAttribute("ano");
+			idSala = (String)session.getAttribute("idSala");
+		}
+		System.out.println("Saiu ->"+dia);
 		
 		Date dataFormatada;
 		
@@ -71,29 +99,53 @@ public class MarcacaoServlet extends HttpServlet {
 			reservas = new ArrayList<Reserva>();
 		
 		SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy hh");
-		String dataString = dia+"-"+"12"+"-"+"2013"+" "+hora;		
+		String dataString = dia+"-"+mes+"-"+ano+ " " +hora;
+		
+		if (flag ==0 )
+		{
+			int segunda = Integer.parseInt(dia);
+			int terca = Integer.parseInt(dia) +1;
+			int quarta = Integer.parseInt(dia) +2;
+			int quinta = Integer.parseInt(dia) +3;
+			int sexta = Integer.parseInt(dia) +4;
+			int sabado = Integer.parseInt(dia) +5;
+			int domingo = Integer.parseInt(dia) +5;
+
+			session.setAttribute("segunda", segunda);
+			session.setAttribute("terca", terca);
+			session.setAttribute("quarta", quarta);
+			session.setAttribute("quinta", quinta);
+			session.setAttribute("sexta", sexta);
+			session.setAttribute("sabado", sabado);
+			session.setAttribute("domingo", domingo);
+		}
 		
 		Usuario usuario = (Usuario)session.getAttribute("usuario");
+		System.out.println("Usuario: "+usuario.getNomeCompleto());
 		
-		if(opcao.equals("adicionar"))
+		System.out.println(opcao);
+		if(opcao!=null && opcao.equals("adicionar"))
 		{
 			try {
 				dataFormatada = formato.parse(dataString);
-				
+				System.out.println("Data Formatada: "+ dataFormatada);
+
 				Reserva reserva = new Reserva();
 				reserva.setData(dataFormatada);
-				reserva.setIdSala(idSala);
+				reserva.setIdSala(Integer.parseInt(idSala));
 				reserva.setIdUsuario(usuario.getIdUsuario());
 				reserva.setConfirmado(0);
 				reservas.add(reserva);
+				
 				session.setAttribute("reservas", reservas);
 				
-				request.getRequestDispatcher("Marcacao.jsp").forward(request, response);
 			} catch (ParseException e) {
+				mensagem = "Selecione uma semana no calendario primeiro";
+				session.setAttribute("mensagem", mensagem);
 				e.printStackTrace();
 			}
 		}
-		else if (opcao.equals("marcar"))
+		else if (opcao!=null && opcao.equals("marcar"))
 		{
 			try {
 				dataFormatada = formato.parse(dataString);
@@ -102,5 +154,6 @@ public class MarcacaoServlet extends HttpServlet {
 				e1.printStackTrace();
 			}
 		}
+		request.getRequestDispatcher("Marcacao.jsp").forward(request, response);
 	}
 }

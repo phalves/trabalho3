@@ -109,7 +109,7 @@
 							selectCurrentWeek();
 						}
 					});
-			
+	
 			$('.week-picker .ui-datepicker-calendar tr').live('mousemove',
 					function() {
 						$(this).find('td a').addClass('ui-state-hover');
@@ -144,16 +144,17 @@
 						</option>
 					</c:forEach>
 				</select>
-				<p>2 - Selecione mês e semana:</p>
+				<p>2 - Selecione mês e semana:</p><br>
+				<p style="color:red"><c:out value="${sessionScope.mensagem}"></c:out></p>
 				<div class="week-picker" class="span4" style="margin-bottom: 14px;"></div>
 				<p>Legenda da tabela ao lado:</p>
 				<ul>
 					<li>X - Reserva confirmada</li>
 					<li>? - Pedido de reserva em análise</li>
 				</ul>
-				<form action="" method="post" class="form">
+				<form action="Marcacao" method="post" class="form">
 					<fieldset>
-						<legend>Informações da Sua Reserva</legend>
+						<legend>Informações da Reserva</legend>
 						<input type="text" placeholder="Responsável"> 
 						<input type="text"placeholder="Motivo"> 
 						<input type="text" placeholder="Projeto">
@@ -167,11 +168,13 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr>
-									<td>01/09/2013</td>
-									<td>08:00 - 09:00</td>
-									<td><button class="btn btn-small btn-danger">X</button></td>
-								</tr>
+								<c:forEach var="reserva" items = "${sessionScope.reservas}">
+									<tr>
+										<td><c:out value="${reserva.getData() }"></c:out></td>
+										<td>07:00 - 08:00</td>	
+										<td><button class="btn btn-small btn-danger">X</button></td>
+									</tr>
+								</c:forEach>
 								<tr>
 									<td>01/09/2013</td>
 									<td>09:00 - 10:00</td>
@@ -184,7 +187,7 @@
 								</tr>
 							</tbody>
 						</table>
-						<button class="btn btn-primary" type="submit">Enviar pedido</button>
+						<button class="btn btn-primary" name="opcao" value="marcar" type="submit">Enviar pedido</button>
 					</fieldset>
 				</form>
 			</div>
@@ -206,18 +209,18 @@
 							<tr>
 								<td align="right">7:00<br />8:00
 								</td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
+								<td><a href="MarcacaoServlet?dia=${sessionScope.segunda }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=7&idsala=${sessionScope.idSala }&opcao=adicionar">livre</a></td>
+								<td><a href="MarcacaoServlet?dia=${sessionScope.terca }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=7&idsala=${sessionScope.idSala }&opcao=adicionar">livre</a></td>
+								<td><a href="MarcacaoServlet?dia=${sessionScope.quarta }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=7&idsala=${sessionScope.idSala }&opcao=adicionar">livre</a></td>
+								<td><a href="MarcacaoServlet?dia=${sessionScope.quinta }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=7&idsala=${sessionScope.idSala }&opcao=adicionar">livre</a></td>
+								<td><a href="MarcacaoServlet?dia=${sessionScope.sexta }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=7&idsala=${sessionScope.idSala }&opcao=adicionar">livre</a></td>
+								<td><a href="MarcacaoServlet?dia=${sessionScope.sabado }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=7&idsala=${sessionScope.idSala }&opcao=adicionar">livre</a></td>
+								<td><a href="MarcacaoServlet?dia=${sessionScope.domingo }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=7&idsala=${sessionScope.idSala }&opcao=adicionar">livre</a></td>
 							</tr>
 							<tr>
 								<td align="right">8:00<br />9:00
 								</td>
-								<td></td>
+								<td><a href="MarcacaoServlet?dia=02&mes=03&ano=2013&hora=7&idsalas=1&opcao=adicionar">Estático - livre</a></td>
 								<td></td>
 								<td></td>
 								<td></td>
