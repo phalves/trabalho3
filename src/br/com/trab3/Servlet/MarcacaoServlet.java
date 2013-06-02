@@ -109,7 +109,7 @@ public class MarcacaoServlet extends HttpServlet {
 			int quinta = Integer.parseInt(dia) +3;
 			int sexta = Integer.parseInt(dia) +4;
 			int sabado = Integer.parseInt(dia) +5;
-			int domingo = Integer.parseInt(dia) +5;
+			int domingo = Integer.parseInt(dia) +6;
 
 			session.setAttribute("segunda", segunda);
 			session.setAttribute("terca", terca);
