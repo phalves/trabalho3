@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Properties;
 
 import javax.mail.Message;
@@ -81,10 +82,7 @@ public class DataController {
 
 		status = pstmt.executeUpdate();
 
-		if (status == 1)
-			return 1;
-		else
-			return 0;
+		return status == 1 ? 1 : 0;
 	}
 
 	public ArrayList <Usuario> getUsuarios() throws ClassNotFoundException, SQLException {
@@ -131,10 +129,7 @@ public class DataController {
 		pstmt.close();
 		con.close();
 
-		if (status == 1)
-			return 1;
-		else
-			return 0;
+		return status == 1 ? 1 : 0;
 	}
 
 	public int criaSala(String nome) throws ClassNotFoundException, SQLException {
@@ -148,10 +143,7 @@ public class DataController {
 
 		status = pstmt.executeUpdate();
 
-		if (status == 1)
-			return 1;
-		else
-			return 0;
+		return status == 1 ? 1 : 0;
 	}
 
 	public ArrayList <Sala> getSalas() throws ClassNotFoundException, SQLException {
@@ -193,11 +185,8 @@ public class DataController {
 
 		pstmt.close();
 		con.close();
-
-		if (status == 1)
-			return 1;
-		else
-			return 0;
+		
+		return status == 1 ? 1 : 0;
 	}
 	
 	public Usuario autentica (String username, String senha) throws ClassNotFoundException, SQLException{
@@ -220,6 +209,10 @@ public class DataController {
 			usuario.setEmail(resultSet.getString("Email"));
 			usuario.setNomeCompleto(resultSet.getString("NomeCompleto"));
 			usuario.setUsername(resultSet.getString("Username"));
+			
+			pstmt.close();
+			con.close();
+			
 			return usuario;
 		}
 
@@ -282,13 +275,36 @@ public class DataController {
 	// Retorna um ArrayList contendo objetos de Reserva 
 	//
 	// Parâmetros:
-	// hour - int contendo o horário de início
 	// mondayDate - Objeto Date contendo a data da segunda-feira da semana desejada
 	//
 	//
-	protected ArrayList<Reserva> reservationsForHourInWeek( int hour, Date mondayDate )
+	protected ArrayList<Reserva> reservationsForHourInWeek( Date mondayDate ) throws ClassNotFoundException, SQLException
 	{
 		ArrayList<Reserva> arr = new ArrayList<Reserva>();
+		
+		con = Conexao.conexao();
+		// TODO: Query não está pronta
+		sql = "SELECT * FROM reserva WHERE data BETWEEN '?' AND '?';";
+		
+		pstmt = con.prepareStatement(sql);
+		pstmt.setDate(1, mondayDate);
+		
+		// Seta a data para domingo, para pegarmos o range de dias
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(mondayDate);
+		cal.add(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);		
+		
+		pstmt.setDate(2, (Date)cal.getTime());
+		
+		resultSet = pstmt.executeQuery();
+		
+		while(resultSet.next())
+		{
+			Reserva r = new Reserva();
+		}
+
+		pstmt.close();
+		con.close();
 		
 		return arr;
 	}
