@@ -190,7 +190,7 @@
 					<li>X - Reserva confirmada</li>
 					<li>? - Pedido de reserva em análise</li>
 				</ul>
-				<form action="Marcacao" method="post" class="form">
+				<form action="MarcacaoServlet" method="post" class="form">
 					<fieldset>
 						<legend>Informações da Reserva</legend>
 						<input type="text" placeholder="Responsável"> 
@@ -209,7 +209,10 @@
 								<c:forEach var="reserva" items = "${sessionScope.reservas}">
 									<tr>
 										<td><c:out value="${reserva.getDataString() }"></c:out></td>
-										<td>07:00 - 08:00</td>	
+										<td>
+											<c:out value="${reserva.getData().getHours() }"></c:out>:00 -
+											<c:out value="${reserva.getData().getHours()+1 }"></c:out>:00
+										</td>	
 										<td><button class="btn btn-small btn-danger">X</button></td>
 									</tr>
 								</c:forEach>
@@ -251,79 +254,79 @@
 							<tr>
 								<td align="right">8:00<br />9:00
 								</td>
-								<td><a href="MarcacaoServlet?dia=02&mes=03&ano=2013&hora=7&idsalas=1&opcao=adicionar">Estático - livre</a></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
+								<td><a href="MarcacaoServlet?dia=${sessionScope.segunda }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=8&idsala=${sessionScope.idSala }&opcao=adicionar">livre</a></td>
+								<td><a href="MarcacaoServlet?dia=${sessionScope.terca }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=8&idsala=${sessionScope.idSala }&opcao=adicionar">livre</a></td>
+								<td><a href="MarcacaoServlet?dia=${sessionScope.quarta }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=8&idsala=${sessionScope.idSala }&opcao=adicionar">livre</a></td>
+								<td><a href="MarcacaoServlet?dia=${sessionScope.quinta }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=8&idsala=${sessionScope.idSala }&opcao=adicionar">livre</a></td>
+								<td><a href="MarcacaoServlet?dia=${sessionScope.sexta }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=8&idsala=${sessionScope.idSala }&opcao=adicionar">livre</a></td>
+								<td><a href="MarcacaoServlet?dia=${sessionScope.sabado }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=8&idsala=${sessionScope.idSala }&opcao=adicionar">livre</a></td>
+								<td><a href="MarcacaoServlet?dia=${sessionScope.domingo }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=8&idsala=${sessionScope.idSala }&opcao=adicionar">livre</a></td>
 							</tr>
 							<tr>
 								<td align="right">9:00<br />10:00
 								</td>
-								<td></td>
-								<td align="center">X</td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
+								<td><a href="MarcacaoServlet?dia=${sessionScope.segunda }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=9&idsala=${sessionScope.idSala }&opcao=adicionar">livre</a></td>
+								<td><a href="MarcacaoServlet?dia=${sessionScope.terca }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=9&idsala=${sessionScope.idSala }&opcao=adicionar">livre</a></td>
+								<td><a href="MarcacaoServlet?dia=${sessionScope.quarta }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=9&idsala=${sessionScope.idSala }&opcao=adicionar">livre</a></td>
+								<td><a href="MarcacaoServlet?dia=${sessionScope.quinta }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=9&idsala=${sessionScope.idSala }&opcao=adicionar">livre</a></td>
+								<td><a href="MarcacaoServlet?dia=${sessionScope.sexta }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=9&idsala=${sessionScope.idSala }&opcao=adicionar">livre</a></td>
+								<td><a href="MarcacaoServlet?dia=${sessionScope.sabado }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=9&idsala=${sessionScope.idSala }&opcao=adicionar">livre</a></td>
+								<td><a href="MarcacaoServlet?dia=${sessionScope.domingo }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=9&idsala=${sessionScope.idSala }&opcao=adicionar">livre</a></td>
 							</tr>
 							<tr>
 								<td align="right">10:00<br />11:00
 								</td>
-								<td></td>
-								<td align="center">X</td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
+								<td><a href="MarcacaoServlet?dia=${sessionScope.segunda }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=10&idsala=${sessionScope.idSala }&opcao=adicionar">livre</a></td>
+								<td><a href="MarcacaoServlet?dia=${sessionScope.terca }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=10&idsala=${sessionScope.idSala }&opcao=adicionar">livre</a></td>
+								<td><a href="MarcacaoServlet?dia=${sessionScope.quarta }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=10&idsala=${sessionScope.idSala }&opcao=adicionar">livre</a></td>
+								<td><a href="MarcacaoServlet?dia=${sessionScope.quinta }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=10&idsala=${sessionScope.idSala }&opcao=adicionar">livre</a></td>
+								<td><a href="MarcacaoServlet?dia=${sessionScope.sexta }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=10&idsala=${sessionScope.idSala }&opcao=adicionar">livre</a></td>
+								<td><a href="MarcacaoServlet?dia=${sessionScope.sabado }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=10&idsala=${sessionScope.idSala }&opcao=adicionar">livre</a></td>
+								<td><a href="MarcacaoServlet?dia=${sessionScope.domingo }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=10&idsala=${sessionScope.idSala }&opcao=adicionar">livre</a></td>
 							</tr>
 							<tr>
 								<td align="right">11:00<br />12:00
 								</td>
-								<td></td>
-								<td align="center">X</td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
+								<td><a href="MarcacaoServlet?dia=${sessionScope.segunda }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=11&idsala=${sessionScope.idSala }&opcao=adicionar">livre</a></td>
+								<td><a href="MarcacaoServlet?dia=${sessionScope.terca }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=11&idsala=${sessionScope.idSala }&opcao=adicionar">livre</a></td>
+								<td><a href="MarcacaoServlet?dia=${sessionScope.quarta }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=11&idsala=${sessionScope.idSala }&opcao=adicionar">livre</a></td>
+								<td><a href="MarcacaoServlet?dia=${sessionScope.quinta }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=11&idsala=${sessionScope.idSala }&opcao=adicionar">livre</a></td>
+								<td><a href="MarcacaoServlet?dia=${sessionScope.sexta }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=11&idsala=${sessionScope.idSala }&opcao=adicionar">livre</a></td>
+								<td><a href="MarcacaoServlet?dia=${sessionScope.sabado }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=11&idsala=${sessionScope.idSala }&opcao=adicionar">livre</a></td>
+								<td><a href="MarcacaoServlet?dia=${sessionScope.domingo }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=11&idsala=${sessionScope.idSala }&opcao=adicionar">livre</a></td>
 							</tr>
 							<tr>
 								<td align="right">12:00<br />13:00
 								</td>
-								<td></td>
-								<td></td>
-								<td align="center">?</td>
-								<td align="center">?</td>
-								<td></td>
-								<td></td>
-								<td></td>
+								<td><a href="MarcacaoServlet?dia=${sessionScope.segunda }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=12&idsala=${sessionScope.idSala }&opcao=adicionar">livre</a></td>
+								<td><a href="MarcacaoServlet?dia=${sessionScope.terca }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=12&idsala=${sessionScope.idSala }&opcao=adicionar">livre</a></td>
+								<td><a href="MarcacaoServlet?dia=${sessionScope.quarta }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=12&idsala=${sessionScope.idSala }&opcao=adicionar">livre</a></td>
+								<td><a href="MarcacaoServlet?dia=${sessionScope.quinta }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=12&idsala=${sessionScope.idSala }&opcao=adicionar">livre</a></td>
+								<td><a href="MarcacaoServlet?dia=${sessionScope.sexta }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=12&idsala=${sessionScope.idSala }&opcao=adicionar">livre</a></td>
+								<td><a href="MarcacaoServlet?dia=${sessionScope.sabado }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=12&idsala=${sessionScope.idSala }&opcao=adicionar">livre</a></td>
+								<td><a href="MarcacaoServlet?dia=${sessionScope.domingo }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=12&idsala=${sessionScope.idSala }&opcao=adicionar">livre</a></td>
 							</tr>
 							<tr>
 								<td align="right">13:00<br />14:00
 								</td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
+								<td><a href="MarcacaoServlet?dia=${sessionScope.segunda }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=13&idsala=${sessionScope.idSala }&opcao=adicionar">livre</a></td>
+								<td><a href="MarcacaoServlet?dia=${sessionScope.terca }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=13&idsala=${sessionScope.idSala }&opcao=adicionar">livre</a></td>
+								<td><a href="MarcacaoServlet?dia=${sessionScope.quarta }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=13&idsala=${sessionScope.idSala }&opcao=adicionar">livre</a></td>
+								<td><a href="MarcacaoServlet?dia=${sessionScope.quinta }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=13&idsala=${sessionScope.idSala }&opcao=adicionar">livre</a></td>
+								<td><a href="MarcacaoServlet?dia=${sessionScope.sexta }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=13&idsala=${sessionScope.idSala }&opcao=adicionar">livre</a></td>
+								<td><a href="MarcacaoServlet?dia=${sessionScope.sabado }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=13&idsala=${sessionScope.idSala }&opcao=adicionar">livre</a></td>
+								<td><a href="MarcacaoServlet?dia=${sessionScope.domingo }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=13&idsala=${sessionScope.idSala }&opcao=adicionar">livre</a></td>
 							</tr>
 							<tr>
 								<td align="right">14:00<br />15:00
 								</td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
+								<td><a href="MarcacaoServlet?dia=${sessionScope.segunda }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=14&idsala=${sessionScope.idSala }&opcao=adicionar">livre</a></td>
+								<td><a href="MarcacaoServlet?dia=${sessionScope.terca }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=14&idsala=${sessionScope.idSala }&opcao=adicionar">livre</a></td>
+								<td><a href="MarcacaoServlet?dia=${sessionScope.quarta }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=14&idsala=${sessionScope.idSala }&opcao=adicionar">livre</a></td>
+								<td><a href="MarcacaoServlet?dia=${sessionScope.quinta }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=14&idsala=${sessionScope.idSala }&opcao=adicionar">livre</a></td>
+								<td><a href="MarcacaoServlet?dia=${sessionScope.sexta }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=14&idsala=${sessionScope.idSala }&opcao=adicionar">livre</a></td>
+								<td><a href="MarcacaoServlet?dia=${sessionScope.sabado }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=14&idsala=${sessionScope.idSala }&opcao=adicionar">livre</a></td>
+								<td><a href="MarcacaoServlet?dia=${sessionScope.domingo }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=14&idsala=${sessionScope.idSala }&opcao=adicionar">livre</a></td>
 							</tr>
 							<tr>
 								<td align="right">15:00<br />16:00

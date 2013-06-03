@@ -47,6 +47,7 @@ public class MarcacaoServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		
+		System.out.println("AAAAAAAAAAAAAAAAAAAAAAA");
 		System.out.println("Request POST recebido");
 		System.out.println("Data Inicio recebida: " + request.getParameter("startDay") + " " + request.getParameter("startMonth") + " " + request.getParameter("startYear"));
 		System.out.println("Date Fim recebida: " + request.getParameter("endDay") + " " + request.getParameter("endMonth") + " " + request.getParameter("endYear"));
@@ -77,7 +78,7 @@ public class MarcacaoServlet extends HttpServlet {
 			session.setAttribute("mes", mes);
 			session.setAttribute("ano", ano);
 			session.setAttribute("idSala", idSala);
-			System.out.println("Entrou -> dia="+dia);
+			
 			session.removeAttribute("mensagem");
 			flag=0;
 		}
@@ -91,7 +92,7 @@ public class MarcacaoServlet extends HttpServlet {
 		}
 		else 
 		{
-			dia = request.getParameter("dia");
+			dia = (String)request.getParameter("dia");
 			mes = (String)session.getAttribute("mes");
 			ano = (String)session.getAttribute("ano");
 			idSala = (String)session.getAttribute("idSala");
@@ -147,7 +148,6 @@ public class MarcacaoServlet extends HttpServlet {
 				reserva.setIdUsuario(usuario.getIdUsuario());
 				reserva.setConfirmado(0);
 				reservas.add(reserva);
-				
 				session.setAttribute("reservas", reservas);
 				
 			} catch (ParseException e) {
@@ -162,9 +162,9 @@ public class MarcacaoServlet extends HttpServlet {
 		else if ( opcao != null && opcao.equals("marcar") )
 		{
 			try {
-				dataFormatada = formato.parse(dataString);
 				d.insereRelacao(reservas);
-			} catch (ClassNotFoundException | SQLException | ParseException e1) {
+				session.removeAttribute("reservas");
+			} catch (ClassNotFoundException | SQLException e1) {
 				e1.printStackTrace();
 			}
 		}
