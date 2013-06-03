@@ -46,8 +46,8 @@ public class MarcacaoServlet extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
+		session.removeAttribute("mensagemSucesso");
 		
-		System.out.println("AAAAAAAAAAAAAAAAAAAAAAA");
 		System.out.println("Request POST recebido");
 		System.out.println("Data Inicio recebida: " + request.getParameter("startDay") + " " + request.getParameter("startMonth") + " " + request.getParameter("startYear"));
 		System.out.println("Date Fim recebida: " + request.getParameter("endDay") + " " + request.getParameter("endMonth") + " " + request.getParameter("endYear"));
@@ -163,7 +163,10 @@ public class MarcacaoServlet extends HttpServlet {
 		{
 			try {
 				d.insereRelacao(reservas);
+				mensagem = "Pedido enviado com sucesso!";
+				session.setAttribute("mensagemSucesso", mensagem);
 				session.removeAttribute("reservas");
+				
 			} catch (ClassNotFoundException | SQLException e1) {
 				e1.printStackTrace();
 			}

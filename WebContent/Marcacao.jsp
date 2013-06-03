@@ -172,6 +172,13 @@
 				<c:out value="${sessionScope.mensagem}"></c:out>
 			</div>
 		</c:if>
+		<c:if test="${sessionScope.mensagemSucesso != null}">
+			<div class="alert alert-success">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+				<strong>Aviso:</strong>
+				<c:out value="${sessionScope.mensagemSucesso}"></c:out>
+			</div>
+		</c:if>
 
 		<div class="row">
 			<div class="span4">
