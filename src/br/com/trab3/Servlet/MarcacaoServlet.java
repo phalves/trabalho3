@@ -167,7 +167,7 @@ public class MarcacaoServlet extends HttpServlet {
 				session.setAttribute("mensagemSucesso", mensagem);
 				session.removeAttribute("reservas");
 				
-			} catch (ClassNotFoundException | SQLException e1) {
+			} catch (ClassNotFoundException | SQLException | ParseException e1) {
 				e1.printStackTrace();
 			}
 		}

@@ -40,7 +40,7 @@ public class Reserva {
 		return Data;
 	}
 	public String getDataString() {
-		SimpleDateFormat outputDf = new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat outputDf = new SimpleDateFormat("dd/MM/yyyy HH");
 		return outputDf.format(this.getData());
 	}
 	public void setData(Date data) {

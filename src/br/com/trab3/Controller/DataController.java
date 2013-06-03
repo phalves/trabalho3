@@ -6,6 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Properties;
@@ -57,7 +60,7 @@ public class DataController {
 		sql = "Create table Usuario (Id_Usuario INT AUTO_INCREMENT NOT NULL PRIMARY KEY, Username varchar(50), NomeCompleto varchar(50), Email varchar(50), Senha varchar(30), Administrador integer);";
 		stmt.execute(sql);
 
-		sql = "CREATE TABLE Reserva (Id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, Relacao integer, Id_Sala INT NOT NULL, Id_Usuario INT NOT NULL, Data Date, Confirmado bool, FOREIGN KEY (Id_Sala) REFERENCES Sala(Id_Sala), FOREIGN KEY (Id_Usuario) REFERENCES Usuario(Id_Usuario));";
+		sql = "CREATE TABLE Reserva (Id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, Relacao integer, Id_Sala INT NOT NULL, Id_Usuario INT NOT NULL, Data DateTime, Confirmado bool, FOREIGN KEY (Id_Sala) REFERENCES Sala(Id_Sala), FOREIGN KEY (Id_Usuario) REFERENCES Usuario(Id_Usuario));";
 		stmt.execute(sql);
 
 		sql = "INSERT INTO Usuario (Username, Email , NomeCompleto, Senha, Administrador) value ('adm','inf1407envia@gmail.com','adm','adm','1');";
@@ -309,7 +312,7 @@ public class DataController {
 		return arr;
 	}
 	
-	public void insereRelacao(ArrayList<Reserva> reservas) throws ClassNotFoundException, SQLException {
+	public void insereRelacao(ArrayList<Reserva> reservas) throws ClassNotFoundException, SQLException, ParseException {
 		int pos = 1;
 		int maxRelacao;
 		con = Conexao.conexao();
@@ -333,12 +336,14 @@ public class DataController {
 			
 			sql = "Insert into reserva (Relacao, Id_Sala, Id_Usuario, Data, Confirmado) values (?, ?, ?, ?,?);";
 			pstmt = con.prepareStatement(sql);
-			java.sql.Date sqldate = new java.sql.Date(reserva.getData().getTime());
+			
+			DateFormat fmt = new SimpleDateFormat("dd/MM/yyyy HH");
+			java.sql.Timestamp data = new java.sql.Timestamp(fmt.parse(reserva.getDataString()).getTime());
 			
 			pstmt.setInt(pos++, maxRelacao);
 			pstmt.setInt(pos++, reserva.getIdSala());
 			pstmt.setInt(pos++, reserva.getIdUsuario());
-			pstmt.setDate(pos++, sqldate);
+			pstmt.setTimestamp(pos++, data);
 			pstmt.setInt(pos++, reserva.getConfirmado());
 
 			pstmt.executeUpdate();			
