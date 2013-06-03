@@ -1,5 +1,6 @@
 package br.com.trab3.Model;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Reserva {
@@ -37,6 +38,10 @@ public class Reserva {
 	}
 	public Date getData() {
 		return Data;
+	}
+	public String getDataString() {
+		SimpleDateFormat outputDf = new SimpleDateFormat("dd/MM/yyyy");
+		return outputDf.format(this.getData());
 	}
 	public void setData(Date data) {
 		Data = data;

@@ -35,15 +35,17 @@
 		    form.submit();
 		}
 		
+		var startDate;
+		var endDate;
+		
 		$(function() {
-			var startDate;
-			var endDate;
+			
 	
 			var selectCurrentWeek = function() {
 				window.setTimeout(function() {
-					$('.week-picker').find('.ui-datepicker-current-day a').addClass('ui-state-active')
+					$('.week-picker').find('.ui-datepicker-current-day a').addClass('ui-state-active');
 				}, 1);
-			}
+			};			
 	
 			$('.week-picker').datepicker({
 						firstDay : 1,
@@ -93,7 +95,7 @@
 							
 							console.log(selectedDateString);
 							
-							// Faz o request pro servlet passando os parametros acima
+							// Faz o request pro servlet passando os parametros
 							postToUrl("MarcacaoServlet", parameters);
 							
 							selectCurrentWeek();
@@ -118,6 +120,35 @@
 					function() {
 						$(this).find('td a').removeClass('ui-state-hover');
 					});
+			
+			function selectWeekFromDate( date ) {
+				return;
+				$('.week-picker').datepicker( "setDate", date );
+				var date = $('.week-picker').datepicker('getDate');
+				
+				var weekDay = date.getDay();
+				var delta = (weekDay == 0) ? 7 : 0;
+				
+				startDate = new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay() + 1 - delta);
+				endDate = new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay() + 7 - delta);
+				$( ".week-picker" ).datepicker( "refresh" );
+				selectCurrentWeek();
+			}
+			
+			//
+			// TODO: Passar data selecionada como parametro
+			//
+			jQuery(document).ready(function($) {
+				console.log("Imprimindo: " + "<c:out value="${sessionScope.selectedDateString}"></c:out>");
+				<c:choose>
+			      <c:when test="${sessionScope.selectedDateString == null}">
+			      	selectWeekFromDate( new Date() );
+			      </c:when>
+			      <c:otherwise>
+			      	selectWeekFromDate( <c:out value="${sessionScope.selectedDateString}"></c:out> );
+			      </c:otherwise>
+				</c:choose>
+			});
 		});
 	</script>
 	<title>Marcação de Salas</title>
@@ -134,6 +165,14 @@
 	</div>
 	
 	<div class="container">
+		<c:if test="${sessionScope.mensagem != null}">
+			<div class="alert alert-error">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+				<strong>Aviso:</strong>
+				<c:out value="${sessionScope.mensagem}"></c:out>
+			</div>
+		</c:if>
+
 		<div class="row">
 			<div class="span4">
 				<p>1 - Selecione a Unidade:</p>
@@ -145,7 +184,6 @@
 					</c:forEach>
 				</select>
 				<p>2 - Selecione mês e semana:</p><br>
-				<p style="color:red"><c:out value="${sessionScope.mensagem}"></c:out></p>
 				<div class="week-picker" class="span4" style="margin-bottom: 14px;"></div>
 				<p>Legenda da tabela ao lado:</p>
 				<ul>
@@ -170,21 +208,11 @@
 							<tbody>
 								<c:forEach var="reserva" items = "${sessionScope.reservas}">
 									<tr>
-										<td><c:out value="${reserva.getData() }"></c:out></td>
+										<td><c:out value="${reserva.getDataString() }"></c:out></td>
 										<td>07:00 - 08:00</td>	
 										<td><button class="btn btn-small btn-danger">X</button></td>
 									</tr>
 								</c:forEach>
-								<tr>
-									<td>01/09/2013</td>
-									<td>09:00 - 10:00</td>
-									<td><button class="btn btn-small btn-danger">X</button></td>
-								</tr>
-								<tr>
-									<td>01/09/2013</td>
-									<td>11:00 - 12:00</td>
-									<td><button class="btn btn-small btn-danger">X</button></td>
-								</tr>
 							</tbody>
 						</table>
 						<button class="btn btn-primary" name="opcao" value="marcar" type="submit">Enviar pedido</button>
@@ -207,6 +235,9 @@
 						</thead>
 						<tbody>
 							<tr>
+								<c:forEach var="segunda" items="${sessionScope.reservasSegunda}">
+									<td><a href="">Livre</a>
+								</c:forEach>
 								<td align="right">7:00<br />8:00
 								</td>
 								<td><a href="MarcacaoServlet?dia=${sessionScope.segunda }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=7&idsala=${sessionScope.idSala }&opcao=adicionar">livre</a></td>
@@ -387,7 +418,6 @@
 			</div>
 		</div>
 	</div>
-
-<c:out value="${sessionScope.usuario.getNomeCompleto() }"></c:out>
+	
 </body>
 </html>

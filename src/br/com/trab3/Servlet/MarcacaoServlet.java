@@ -42,7 +42,8 @@ public class MarcacaoServlet extends HttpServlet {
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
+	 */	
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		
@@ -51,8 +52,14 @@ public class MarcacaoServlet extends HttpServlet {
 		System.out.println("Date Fim recebida: " + request.getParameter("endDay") + " " + request.getParameter("endMonth") + " " + request.getParameter("endYear"));
 		System.out.println("idSala recebido: " + request.getParameter("idSala"));
 		
-		String mensagem;
+		//
+		// Guarda no request uma string com a data recebida
+		// Esse parametro é lido pelo javascript no marcacao.jsp para manter
+		// a semana selecionada no componente
+		//
+		session.setAttribute("selectedDateString", request.getParameter("startDay")+"/"+request.getParameter("startMonth")+"/"+request.getParameter("startYear"));
 		
+		String mensagem;
 		String opcao = request.getParameter("opcao");
 	
 		DataController d = new DataController();
@@ -64,7 +71,7 @@ public class MarcacaoServlet extends HttpServlet {
 		String idSala = (request.getParameter("idSala"));
 		int flag= -1;
 		
-		if(dia!=null)
+		if (dia != null)
 		{
 			session.setAttribute("dia", dia);
 			session.setAttribute("mes", mes);
@@ -74,13 +81,13 @@ public class MarcacaoServlet extends HttpServlet {
 			session.removeAttribute("mensagem");
 			flag=0;
 		}
-		else if(flag==0)
+		else if (flag == 0)
 		{
 			dia = (String)session.getAttribute("dia");
 			mes = (String)session.getAttribute("mes");
 			ano = (String)session.getAttribute("ano");
 			idSala = (String)session.getAttribute("idSala");
-			flag=1;
+			flag = 1;
 		}
 		else 
 		{
@@ -95,13 +102,15 @@ public class MarcacaoServlet extends HttpServlet {
 		
 		ArrayList<Reserva> reservas = (ArrayList<Reserva>)session.getAttribute("reservas");
 		
-		if(reservas == null)
+		if (reservas == null)
+		{
 			reservas = new ArrayList<Reserva>();
+		}
 		
 		SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy hh");
 		String dataString = dia+"-"+mes+"-"+ano+ " " +hora;
 		
-		if (flag ==0 )
+		if ( flag == 0 )
 		{
 			int segunda = Integer.parseInt(dia);
 			int terca = Integer.parseInt(dia) +1;
@@ -123,8 +132,10 @@ public class MarcacaoServlet extends HttpServlet {
 		Usuario usuario = (Usuario)session.getAttribute("usuario");
 		System.out.println("Usuario: "+usuario.getNomeCompleto());
 		
-		System.out.println(opcao);
-		if(opcao!=null && opcao.equals("adicionar"))
+		//
+		// Adicionar
+		//
+		if ( opcao != null && opcao.equals("adicionar") )
 		{
 			try {
 				dataFormatada = formato.parse(dataString);
@@ -145,7 +156,10 @@ public class MarcacaoServlet extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
-		else if (opcao!=null && opcao.equals("marcar"))
+		//
+		// Marcar
+		//
+		else if ( opcao != null && opcao.equals("marcar") )
 		{
 			try {
 				dataFormatada = formato.parse(dataString);

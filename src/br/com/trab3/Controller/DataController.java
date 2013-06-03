@@ -274,6 +274,25 @@ public class DataController {
 
 	}
 	
+	//
+	// Métodos relacionados a reserva
+	//
+	
+	//
+	// Retorna um ArrayList contendo objetos de Reserva 
+	//
+	// Parâmetros:
+	// hour - int contendo o horário de início
+	// mondayDate - Objeto Date contendo a data da segunda-feira da semana desejada
+	//
+	//
+	protected ArrayList<Reserva> reservationsForHourInWeek( int hour, Date mondayDate )
+	{
+		ArrayList<Reserva> arr = new ArrayList<Reserva>();
+		
+		return arr;
+	}
+	
 	public void insereRelacao(ArrayList<Reserva> reservas) throws ClassNotFoundException, SQLException {
 		int pos = 1;
 		int maxRelacao;
