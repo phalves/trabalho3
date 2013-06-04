@@ -361,15 +361,17 @@ public class DataController {
 		int confirmado;
 		con = Conexao.conexao();
 		int aux = startDate;
+		int horas = 17;
+		int diaSemana = 7;
 		
-		for(int i=0; i<17; i++)
+		for(int i=0; i<horas; i++)
 		{
 			startDate = aux;
-			for(int j=0; j<8;j++)
+			for(int j=0; j<diaSemana;j++)
 			{
 				sql = "SELECT * FROM Reserva where hour(Data)=? and day(Data)=?";
 				pstmt = con.prepareStatement(sql);
-				pstmt.setInt(1, i);
+				pstmt.setInt(1, i+7);
 				pstmt.setInt(2, startDate);
 				startDate++;
 				resultSet = pstmt.executeQuery();

@@ -105,7 +105,7 @@ public class MarcacaoServlet extends HttpServlet {
 			session.setAttribute("dias", dias);
 			for(int i=0; i<17; i++)
 			{
-				for(int j=0; j<8;j++)
+				for(int j=0; j<7;j++)
 				{
 					System.out.println("dia- "+j+" hora- "+i+" Situacao- " + dias[i][j]);
 				}
