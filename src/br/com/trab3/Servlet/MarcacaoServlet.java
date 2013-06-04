@@ -99,6 +99,22 @@ public class MarcacaoServlet extends HttpServlet {
 		}
 		System.out.println("Saiu ->"+dia);
 		
+		// Pega as marcações da semana para colocar na página jsp
+		try {
+			String dias[][] = d.getMarcacao(Integer.parseInt(dia));
+			session.setAttribute("dias", dias);
+			for(int i=0; i<17; i++)
+			{
+				for(int j=0; j<8;j++)
+				{
+					System.out.println("dia- "+j+" hora- "+i+" Situacao- " + dias[i][j]);
+				}
+			}
+		} catch (NumberFormatException | ClassNotFoundException | SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		
 		Date dataFormatada;
 		
 		ArrayList<Reserva> reservas = (ArrayList<Reserva>)session.getAttribute("reservas");

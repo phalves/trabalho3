@@ -349,4 +349,49 @@ public class DataController {
 			pstmt.executeUpdate();			
 		}
 	}
+
+	// Pega os simbolos da marcação no banco
+	// X - Reserva Confirmada
+	// ? - Reserva Não Confirmada
+	// vazio - sem reservas no horário
+
+	//TODO Tratar troca de mês dias 28, 30 e 31.. Acho que usando o between resolve	
+	public String[][] getMarcacao(int startDate) throws ClassNotFoundException, SQLException {
+		String dias[][] = new String[17][8];
+		int confirmado;
+		con = Conexao.conexao();
+		int aux = startDate;
+		
+		for(int i=0; i<17; i++)
+		{
+			startDate = aux;
+			for(int j=0; j<8;j++)
+			{
+				sql = "SELECT * FROM Reserva where hour(Data)=? and day(Data)=?";
+				pstmt = con.prepareStatement(sql);
+				pstmt.setInt(1, i);
+				pstmt.setInt(2, startDate);
+				startDate++;
+				resultSet = pstmt.executeQuery();
+				if(resultSet.next())
+				{
+					confirmado = Integer.parseInt(resultSet.getString("Confirmado"));
+					if(confirmado==1)
+					{
+						dias[i][j]="X";
+					}
+					else
+						dias[i][j]="?";
+				}
+				else
+					dias[i][j] = "vazio";
+			}
+		}
+		
+		pstmt.close();
+		con.close();
+
+		return dias;
+	}
+
 }
