@@ -64,7 +64,8 @@ public class MarcacaoServlet extends HttpServlet {
 		String opcao = request.getParameter("opcao");
 	
 		DataController d = new DataController();
-
+		
+		String startDay = request.getParameter("startDay");
 		String dia = (request.getParameter("startDay"));
 		String mes = (request.getParameter("startMonth"));
 		String ano = (request.getParameter("startYear"));
@@ -78,6 +79,7 @@ public class MarcacaoServlet extends HttpServlet {
 			session.setAttribute("mes", mes);
 			session.setAttribute("ano", ano);
 			session.setAttribute("idSala", idSala);
+			session.setAttribute("startDay", startDay);
 			
 			session.removeAttribute("mensagem");
 			flag=0;
@@ -88,6 +90,8 @@ public class MarcacaoServlet extends HttpServlet {
 			mes = (String)session.getAttribute("mes");
 			ano = (String)session.getAttribute("ano");
 			idSala = (String)session.getAttribute("idSala");
+			startDay = (String)session.getAttribute("startDay");
+			
 			flag = 1;
 		}
 		else 
@@ -96,24 +100,11 @@ public class MarcacaoServlet extends HttpServlet {
 			mes = (String)session.getAttribute("mes");
 			ano = (String)session.getAttribute("ano");
 			idSala = (String)session.getAttribute("idSala");
+			startDay = (String)session.getAttribute("startDay");
 		}
 		System.out.println("Saiu ->"+dia);
 		
-		// Pega as marcações da semana para colocar na página jsp
-		try {
-			String dias[][] = d.getMarcacao(Integer.parseInt(dia));
-			session.setAttribute("dias", dias);
-			for(int i=0; i<17; i++)
-			{
-				for(int j=0; j<7;j++)
-				{
-					System.out.println("dia- "+j+" hora- "+i+" Situacao- " + dias[i][j]);
-				}
-			}
-		} catch (NumberFormatException | ClassNotFoundException | SQLException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
+		
 		
 		Date dataFormatada;
 		
@@ -157,12 +148,13 @@ public class MarcacaoServlet extends HttpServlet {
 			try {
 				dataFormatada = formato.parse(dataString);
 				System.out.println("Data Formatada: "+ dataFormatada);
-
+				
 				Reserva reserva = new Reserva();
 				reserva.setData(dataFormatada);
 				reserva.setIdSala(Integer.parseInt(idSala));
 				reserva.setIdUsuario(usuario.getIdUsuario());
 				reserva.setConfirmado(0);
+				
 				reservas.add(reserva);
 				session.setAttribute("reservas", reservas);
 				
@@ -178,6 +170,19 @@ public class MarcacaoServlet extends HttpServlet {
 		else if ( opcao != null && opcao.equals("marcar") )
 		{
 			try {
+				int index=0;
+				for(Reserva reserva : reservas)
+				{
+					reserva = reservas.get(index);
+	
+					reserva.setResponsavel(request.getParameter("responsavel"));
+					reserva.setMotivo(request.getParameter("motivo"));
+					reserva.setProjeto(request.getParameter("projeto"));
+					reserva.setDescricao(request.getParameter("descricao"));
+					reservas.set(index, reserva);
+					index++;
+					
+				}
 				d.insereRelacao(reservas);
 				mensagem = "Pedido enviado com sucesso!";
 				session.setAttribute("mensagemSucesso", mensagem);
@@ -186,6 +191,16 @@ public class MarcacaoServlet extends HttpServlet {
 			} catch (ClassNotFoundException | SQLException | ParseException e1) {
 				e1.printStackTrace();
 			}
+		}
+		
+		
+		// Pega as marcações da semana para colocar na página jsp
+		try {
+			String dias[][] = d.getMarcacao(Integer.parseInt(startDay), Integer.parseInt(idSala));
+			session.setAttribute("dias", dias);
+		} catch (NumberFormatException | ClassNotFoundException | SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
 		}
 		request.getRequestDispatcher("Marcacao.jsp").forward(request, response);
 	}

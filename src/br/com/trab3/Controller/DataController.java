@@ -60,7 +60,7 @@ public class DataController {
 		sql = "Create table Usuario (Id_Usuario INT AUTO_INCREMENT NOT NULL PRIMARY KEY, Username varchar(50), NomeCompleto varchar(50), Email varchar(50), Senha varchar(30), Administrador integer);";
 		stmt.execute(sql);
 
-		sql = "CREATE TABLE Reserva (Id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, Relacao integer, Id_Sala INT NOT NULL, Id_Usuario INT NOT NULL, Data DateTime, Confirmado bool, FOREIGN KEY (Id_Sala) REFERENCES Sala(Id_Sala), FOREIGN KEY (Id_Usuario) REFERENCES Usuario(Id_Usuario));";
+		sql = "CREATE TABLE Reserva (Id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, Relacao integer, Id_Sala INT NOT NULL, Id_Usuario INT NOT NULL, Data DateTime, Responsavel varchar(50), Motivo varchar(200), Projeto varchar(50), Descricao varchar(300), Confirmado bool, FOREIGN KEY (Id_Sala) REFERENCES Sala(Id_Sala), FOREIGN KEY (Id_Usuario) REFERENCES Usuario(Id_Usuario));";
 		stmt.execute(sql);
 
 		sql = "INSERT INTO Usuario (Username, Email , NomeCompleto, Senha, Administrador) value ('adm','inf1407envia@gmail.com','adm','adm','1');";
@@ -334,17 +334,22 @@ public class DataController {
 		{
 			pos = 1;
 			
-			sql = "Insert into reserva (Relacao, Id_Sala, Id_Usuario, Data, Confirmado) values (?, ?, ?, ?,?);";
+			sql = "Insert into reserva (Relacao, Id_Sala, Id_Usuario, Data, Confirmado, Responsavel, Motivo, Projeto, Descricao) values (?, ?, ?, ?,?,?,?,?,?);";
 			pstmt = con.prepareStatement(sql);
 			
 			DateFormat fmt = new SimpleDateFormat("dd/MM/yyyy HH");
-			java.sql.Timestamp data = new java.sql.Timestamp(fmt.parse(reserva.getDataString()).getTime());
+			java.sql.Timestamp data = new java.sql.Timestamp(fmt.parse(reserva.getDataStringCompleta()).getTime());
 			
 			pstmt.setInt(pos++, maxRelacao);
 			pstmt.setInt(pos++, reserva.getIdSala());
 			pstmt.setInt(pos++, reserva.getIdUsuario());
 			pstmt.setTimestamp(pos++, data);
 			pstmt.setInt(pos++, reserva.getConfirmado());
+			pstmt.setString(pos++, reserva.getResponsavel());
+			pstmt.setString(pos++, reserva.getMotivo());
+			pstmt.setString(pos++, reserva.getProjeto());
+			pstmt.setString(pos++, reserva.getDescricao());
+			
 
 			pstmt.executeUpdate();			
 		}
@@ -356,23 +361,25 @@ public class DataController {
 	// vazio - sem reservas no horário
 
 	//TODO Tratar troca de mês dias 28, 30 e 31.. Acho que usando o between resolve	
-	public String[][] getMarcacao(int startDate) throws ClassNotFoundException, SQLException {
+	public String[][] getMarcacao(int startDate, int idsala) throws ClassNotFoundException, SQLException {
 		String dias[][] = new String[17][8];
 		int confirmado;
-		con = Conexao.conexao();
 		int aux = startDate;
 		int horas = 17;
 		int diaSemana = 7;
+		
+		con = Conexao.conexao();
 		
 		for(int i=0; i<horas; i++)
 		{
 			startDate = aux;
 			for(int j=0; j<diaSemana;j++)
 			{
-				sql = "SELECT * FROM Reserva where hour(Data)=? and day(Data)=?";
+				sql = "SELECT * FROM Reserva where hour(Data)=? and day(Data)=? and Id_Sala = ?";
 				pstmt = con.prepareStatement(sql);
 				pstmt.setInt(1, i+7);
 				pstmt.setInt(2, startDate);
+				pstmt.setInt(3, idsala);
 				startDate++;
 				resultSet = pstmt.executeQuery();
 				if(resultSet.next())

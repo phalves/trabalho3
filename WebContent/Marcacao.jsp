@@ -200,10 +200,10 @@
 				<form action="MarcacaoServlet" method="post" class="form">
 					<fieldset>
 						<legend>Informações da Reserva</legend>
-						<input type="text" placeholder="Responsável"> 
-						<input type="text"placeholder="Motivo"> 
-						<input type="text" placeholder="Projeto">
-						<textarea rows="2" placeholder="Descrição"></textarea>
+						<input type="text" name="responsavel" placeholder="Responsável"> 
+						<input type="text"name="motivo" placeholder="Motivo"> 
+						<input type="text" name="projeto" placeholder="Projeto">
+						<textarea rows="2" name="descricao" placeholder="Descrição"></textarea>
 						<table class="table table-condensed">
 							<thead>
 								<tr>
@@ -220,7 +220,9 @@
 											<c:out value="${reserva.getData().getHours() }"></c:out>:00 -
 											<c:out value="${reserva.getData().getHours()+1 }"></c:out>:00
 										</td>	
-										<td><button class="btn btn-small btn-danger">X</button></td>
+										<td>
+											<button class="btn btn-danger" type="submit" name="idReserva" value="${reserva.getIdReserva() }">X</button>
+										</td>
 									</tr>
 								</c:forEach>
 							</tbody>

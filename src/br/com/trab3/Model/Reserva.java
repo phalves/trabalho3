@@ -11,6 +11,10 @@ public class Reserva {
 	private int IdUsuario;
 	private Date Data;
 	private int Confirmado;
+	private String Responsavel;
+	private String Motivo;
+	private String Projeto;
+	private String Descricao;
 	
 	public int getIdReserva() {
 		return IdReserva;
@@ -40,6 +44,10 @@ public class Reserva {
 		return Data;
 	}
 	public String getDataString() {
+		SimpleDateFormat outputDf = new SimpleDateFormat("dd/MM/yyyy");
+		return outputDf.format(this.getData());
+	}
+	public String getDataStringCompleta() {
 		SimpleDateFormat outputDf = new SimpleDateFormat("dd/MM/yyyy HH");
 		return outputDf.format(this.getData());
 	}
@@ -51,6 +59,30 @@ public class Reserva {
 	}
 	public void setConfirmado(int confirmado) {
 		Confirmado = confirmado;
+	}
+	public String getResponsavel() {
+		return Responsavel;
+	}
+	public void setResponsavel(String responsavel) {
+		Responsavel = responsavel;
+	}
+	public String getMotivo() {
+		return Motivo;
+	}
+	public void setMotivo(String motivo) {
+		Motivo = motivo;
+	}
+	public String getProjeto() {
+		return Projeto;
+	}
+	public void setProjeto(String projeto) {
+		Projeto = projeto;
+	}
+	public String getDescricao() {
+		return Descricao;
+	}
+	public void setDescricao(String descricao) {
+		Descricao = descricao;
 	}
 	
 
