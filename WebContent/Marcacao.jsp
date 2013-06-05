@@ -185,9 +185,16 @@
 				<p>1 - Selecione a Unidade:</p>
 				<select name="tipo" id="salaPicker">
 					<c:forEach var="sala" items="${sessionScope.salas}">
-						<option value="${sala.getId() }">
-							<c:out value="${sala.getLocal() }"></c:out>
-						</option>
+						<c:if test="${sessionScope.idSala == sala.getId() }">
+							<option selected value="${sala.getId() }" >
+								<c:out value="${sala.getLocal() }"></c:out>
+							</option>
+						</c:if>
+						<c:if test="${sessionScope.idSala != sala.getId() }">
+							<option value="${sala.getId() }" >
+								<c:out value="${sala.getLocal() }"></c:out>
+							</option>
+						</c:if>
 					</c:forEach>
 				</select>
 				<p>2 - Selecione mês e semana:</p><br>
@@ -213,6 +220,7 @@
 								</tr>
 							</thead>
 							<tbody>
+								<c:set value="0" var="index" scope="page" />
 								<c:forEach var="reserva" items = "${sessionScope.reservas}">
 									<tr>
 										<td><c:out value="${reserva.getDataString() }"></c:out></td>
@@ -221,9 +229,10 @@
 											<c:out value="${reserva.getData().getHours()+1 }"></c:out>:00
 										</td>	
 										<td>
-											<button class="btn btn-danger" type="submit" name="idReserva" value="${reserva.getIdReserva() }">X</button>
+											<button class="btn btn-danger" type="submit" name="indexReserva" value="${index }">X</button>
 										</td>
 									</tr>
+								<c:set value="${index+1 }" var="index" />	
 								</c:forEach>
 							</tbody>
 						</table>

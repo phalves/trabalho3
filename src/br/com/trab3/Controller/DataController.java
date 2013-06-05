@@ -361,12 +361,12 @@ public class DataController {
 	// vazio - sem reservas no horário
 
 	//TODO Tratar troca de mês dias 28, 30 e 31.. Acho que usando o between resolve	
-	public String[][] getMarcacao(int startDate, int idsala) throws ClassNotFoundException, SQLException {
+	public String[][] getMarcacao(int startDate, int idsala) throws ClassNotFoundException, SQLException, ParseException {
 		String dias[][] = new String[17][8];
 		int confirmado;
-		int aux = startDate;
 		int horas = 17;
 		int diaSemana = 7;
+		int aux = startDate;
 		
 		con = Conexao.conexao();
 		
@@ -374,13 +374,14 @@ public class DataController {
 		{
 			startDate = aux;
 			for(int j=0; j<diaSemana;j++)
-			{
+			{			
 				sql = "SELECT * FROM Reserva where hour(Data)=? and day(Data)=? and Id_Sala = ?";
 				pstmt = con.prepareStatement(sql);
 				pstmt.setInt(1, i+7);
 				pstmt.setInt(2, startDate);
 				pstmt.setInt(3, idsala);
 				startDate++;
+				
 				resultSet = pstmt.executeQuery();
 				if(resultSet.next())
 				{
@@ -401,6 +402,32 @@ public class DataController {
 		con.close();
 
 		return dias;
+	}
+	
+	public String getNomeSala(int id) throws ClassNotFoundException, SQLException{
+
+		String nome=null;
+		
+		con = Conexao.conexao();
+		sql = "select * from Sala where Id_Sala = ?;";
+		pstmt = con.prepareStatement(sql);			
+		pstmt.setInt(1, id);
+		resultSet = pstmt.executeQuery();
+
+		if(resultSet.next())
+		{
+			Sala sala = new Sala();
+			sala.setId(Integer.parseInt(resultSet.getString("Id_Sala")));
+			sala.setLocal(resultSet.getString("Local"));
+			nome = sala.getLocal();
+		}
+
+		pstmt.close();
+		con.close();
+
+		return nome;
+		
+		
 	}
 
 }

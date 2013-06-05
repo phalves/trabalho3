@@ -75,6 +75,10 @@ public class MarcacaoServlet extends HttpServlet {
 		
 		if (dia != null)
 		{
+			//Verificação se a sala 
+			if(! idSala.equals((String)session.getAttribute("idSala")))
+				session.removeAttribute("reservas");
+				
 			session.setAttribute("dia", dia);
 			session.setAttribute("mes", mes);
 			session.setAttribute("ano", ano);
@@ -82,17 +86,8 @@ public class MarcacaoServlet extends HttpServlet {
 			session.setAttribute("startDay", startDay);
 			
 			session.removeAttribute("mensagem");
-			flag=0;
-		}
-		else if (flag == 0)
-		{
-			dia = (String)session.getAttribute("dia");
-			mes = (String)session.getAttribute("mes");
-			ano = (String)session.getAttribute("ano");
-			idSala = (String)session.getAttribute("idSala");
-			startDay = (String)session.getAttribute("startDay");
 			
-			flag = 1;
+			flag=0;
 		}
 		else 
 		{
@@ -156,6 +151,7 @@ public class MarcacaoServlet extends HttpServlet {
 				reserva.setConfirmado(0);
 				
 				reservas.add(reserva);
+				
 				session.setAttribute("reservas", reservas);
 				
 			} catch (ParseException e) {
@@ -173,8 +169,10 @@ public class MarcacaoServlet extends HttpServlet {
 				int index=0;
 				for(Reserva reserva : reservas)
 				{
+					
 					reserva = reservas.get(index);
-	
+					
+					//reserva.setIdReserva(index);
 					reserva.setResponsavel(request.getParameter("responsavel"));
 					reserva.setMotivo(request.getParameter("motivo"));
 					reserva.setProjeto(request.getParameter("projeto"));
@@ -192,13 +190,25 @@ public class MarcacaoServlet extends HttpServlet {
 				e1.printStackTrace();
 			}
 		}
+		else if( request.getParameter("indexReserva") !=null )
+		{
+			int indexReserva = Integer.parseInt(request.getParameter("indexReserva"));
+			
+			System.out.println(indexReserva);
+			
+			
+			reservas.remove(indexReserva);
+			
+			
+			session.setAttribute("reservas", reservas);
+		}
 		
 		
 		// Pega as marcações da semana para colocar na página jsp
 		try {
 			String dias[][] = d.getMarcacao(Integer.parseInt(startDay), Integer.parseInt(idSala));
 			session.setAttribute("dias", dias);
-		} catch (NumberFormatException | ClassNotFoundException | SQLException e2) {
+		} catch (NumberFormatException | ClassNotFoundException | SQLException | ParseException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
