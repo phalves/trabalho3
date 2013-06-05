@@ -47,12 +47,7 @@ public class MarcacaoServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		session.removeAttribute("mensagemSucesso");
-		
-		System.out.println("Request POST recebido");
-		System.out.println("Data Inicio recebida: " + request.getParameter("startDay") + " " + request.getParameter("startMonth") + " " + request.getParameter("startYear"));
-		System.out.println("Date Fim recebida: " + request.getParameter("endDay") + " " + request.getParameter("endMonth") + " " + request.getParameter("endYear"));
-		System.out.println("idSala recebido: " + request.getParameter("idSala"));
-		
+			
 		//
 		// Guarda no request uma string com a data recebida
 		// Esse parametro é lido pelo javascript no marcacao.jsp para manter
@@ -97,10 +92,7 @@ public class MarcacaoServlet extends HttpServlet {
 			idSala = (String)session.getAttribute("idSala");
 			startDay = (String)session.getAttribute("startDay");
 		}
-		System.out.println("Saiu ->"+dia);
-		
-		
-		
+				
 		Date dataFormatada;
 		
 		ArrayList<Reserva> reservas = (ArrayList<Reserva>)session.getAttribute("reservas");
@@ -110,8 +102,10 @@ public class MarcacaoServlet extends HttpServlet {
 			reservas = new ArrayList<Reserva>();
 		}
 		
-		SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy hh");
+		SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy HH");
+		SimpleDateFormat formato2 = new SimpleDateFormat("dd-MM-yyyy");
 		String dataString = dia+"-"+mes+"-"+ano+ " " +hora;
+		String dataString2 = startDay+"-"+mes+"-"+ano+ " " +hora;
 		
 		if ( flag == 0 )
 		{
@@ -206,7 +200,9 @@ public class MarcacaoServlet extends HttpServlet {
 		
 		// Pega as marcações da semana para colocar na página jsp
 		try {
-			String dias[][] = d.getMarcacao(Integer.parseInt(startDay), Integer.parseInt(idSala));
+			session.removeAttribute("dias");
+			dataFormatada = formato2.parse(dataString2);
+			String dias[][] = d.getMarcacao(dataFormatada, Integer.parseInt(idSala));
 			session.setAttribute("dias", dias);
 		} catch (NumberFormatException | ClassNotFoundException | SQLException | ParseException e2) {
 			// TODO Auto-generated catch block

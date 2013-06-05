@@ -6,11 +6,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Properties;
 
 import javax.mail.Message;
@@ -361,40 +363,64 @@ public class DataController {
 	// vazio - sem reservas no horário
 
 	//TODO Tratar troca de mês dias 28, 30 e 31.. Acho que usando o between resolve	
-	public String[][] getMarcacao(int startDate, int idsala) throws ClassNotFoundException, SQLException, ParseException {
+	@SuppressWarnings("deprecation")
+	public String[][] getMarcacao(java.util.Date dataInicio, int idsala) throws ClassNotFoundException, SQLException, ParseException {
 		String dias[][] = new String[17][8];
 		int confirmado;
 		int horas = 17;
 		int diaSemana = 7;
-		int aux = startDate;
-		
+	
 		con = Conexao.conexao();
-		
+	
+		GregorianCalendar calendar = new GregorianCalendar();
+			
 		for(int i=0; i<horas; i++)
 		{
-			startDate = aux;
-			for(int j=0; j<diaSemana;j++)
-			{			
-				sql = "SELECT * FROM Reserva where hour(Data)=? and day(Data)=? and Id_Sala = ?";
-				pstmt = con.prepareStatement(sql);
-				pstmt.setInt(1, i+7);
-				pstmt.setInt(2, startDate);
-				pstmt.setInt(3, idsala);
-				startDate++;
-				
-				resultSet = pstmt.executeQuery();
-				if(resultSet.next())
+			
+			calendar.setTime(dataInicio);
+			java.sql.Timestamp t = new Timestamp(calendar.getTime().getTime());
+			calendar.add(Calendar.DAY_OF_MONTH, 7);			
+			java.sql.Timestamp t2 = new Timestamp(calendar.getTime().getTime());
+			
+			sql = "SELECT * FROM Reserva where hour(Data)=? and Id_Sala = ? and data BETWEEN ? AND ? order by data";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, i+7);
+			pstmt.setInt(2, idsala);
+			pstmt.setTimestamp(3, t);
+			pstmt.setTimestamp(4, t2);
+			
+			resultSet = pstmt.executeQuery();
+			
+			
+			while(resultSet.next())
+			{
+				for(int j=0; j<diaSemana;j++)
 				{
-					confirmado = Integer.parseInt(resultSet.getString("Confirmado"));
-					if(confirmado==1)
+					java.sql.Timestamp data = resultSet.getTimestamp("Data");
+					
+					int weekDay = data.getDay()-1;
+					
+					if (weekDay == -1) weekDay = 6;
+					
+					if(weekDay==j)
 					{
-						dias[i][j]="X";
+						confirmado = Integer.parseInt(resultSet.getString("Confirmado"));
+						if(confirmado==1)
+							dias[data.getHours()-7][j]="X";
+						else
+							dias[data.getHours()-7][j]="?";
 					}
-					else
-						dias[i][j]="?";
-				}
-				else
+				}		
+			}
+		}
+		
+		for(int i=0;i<horas;i++)
+		{
+			for(int j=0; j<diaSemana; j++)
+			{
+				if(dias[i][j]==null)
 					dias[i][j] = "vazio";
+					
 			}
 		}
 		
