@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 
 import br.com.trab3.Controller.DataController;
 import br.com.trab3.Model.Reserva;
+import br.com.trab3.Model.Sala;
 import br.com.trab3.Model.Usuario;
 
 /**
@@ -178,6 +179,13 @@ public class MarcacaoServlet extends HttpServlet {
 				d.insereRelacao(reservas);
 				mensagem = "Pedido enviado com sucesso!";
 				session.setAttribute("mensagemSucesso", mensagem);
+				
+				// Envia email para todos os administradores
+				ArrayList<Usuario> usuarios;
+				usuarios = d.getUsuariosAdministradores();
+				String nomeSala = d.getNomeSala(Integer.parseInt(idSala));
+				d.EnviarEmail(usuarios, nomeSala);
+				
 				session.removeAttribute("reservas");
 				
 			} catch (ClassNotFoundException | SQLException | ParseException e1) {
