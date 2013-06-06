@@ -46,6 +46,9 @@ public class HomologacaoServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		
 		String relacao = request.getParameter("relacao");
+		String opcao = request.getParameter("opcao");
+		session.removeAttribute("mensagemSucesso");
+		session.removeAttribute("mensagem");
 		
 		DataController d = new DataController();
 		
@@ -86,22 +89,20 @@ public class HomologacaoServlet extends HttpServlet {
 				
 		Date dataFormatada;
 		SimpleDateFormat formato2 = new SimpleDateFormat("dd-MM-yyyy");
-		String dataString2 = startDay+"-"+mes+"-"+ano+ " " +hora;
+		String dataString2 = startDay+"-"+mes+"-"+ano;
+		System.out.println(dataString2);
 		
 		try {
-			
-			
-			if ( relacao != null )
+			if ( relacao != null && opcao==null )
 			{
-				
 				int idRelacao = Integer.parseInt(relacao);
 				reservas = d.getReservasComRelacaoId(idRelacao);
 				String nomeSala = d.getNomeSala(Integer.parseInt(idSala));
 				session.setAttribute("nomeSala", nomeSala);
-				session.setAttribute("reservas", reservas);
+				session.setAttribute("pedidoReservas", reservas);
 				request.getRequestDispatcher("DetalheReserva.jsp").forward(request, response);
 			}
-			else if(startDay!=null)
+			else if(startDay!=null && opcao==null)
 			{
 				//Busca o NomeCompleto de cada relacao na semana selecionada
 
@@ -111,6 +112,22 @@ public class HomologacaoServlet extends HttpServlet {
 				session.setAttribute("nomeSala", nomeSala);
 				session.setAttribute("reservas", reservas);
 				request.getRequestDispatcher("Homologacao.jsp").forward(request, response);
+			}
+			else if(opcao!=null && opcao.equals("aceitar"))
+			{
+				ArrayList<Reserva> pedidoReservas = (ArrayList<Reserva>)session.getAttribute("pedidoReservas");
+				d.confirmaReservas(pedidoReservas);
+				session.setAttribute("mensagemSucesso", "Pedido Confirmado");
+				session.removeAttribute("reservas");
+				request.getRequestDispatcher("AtividadesAdministrativas.jsp").forward(request, response);
+			}
+			else if(opcao!=null && opcao.equals("rejeitar"))
+			{
+				ArrayList<Reserva> pedidoReservas = (ArrayList<Reserva>)session.getAttribute("pedidoReservas");
+				d.rejeitaReservas(pedidoReservas);
+				session.setAttribute("mensagem", "Pedido Rejeitado");
+				session.removeAttribute("reservas");
+				request.getRequestDispatcher("AtividadesAdministrativas.jsp").forward(request, response);
 			}
 			else
 			{

@@ -10,22 +10,23 @@
 <body>
 <form method="post" action="HomologacaoServlet">
 	
-	
-	Descrição da Reserva<br>
-	Sala: <c:out value="${sessionScope.nomeSala }"/><br>
-	Responsável: <c:out value="${reserva.getResponsavel() }"/><br>
-	Motivo: <c:out value="${reserva.getMotivo() }"/><br>
-	Projeto: <c:out value="${reserva.getProjeto() }"/><br>
-	Descrição: <c:out value="${reserva.getDescricao() }"/><br>
-	
-	<br>
-	
-	Datas:<br>
-	<c:forEach var="reserva" items="${sessionScope.reservas }">
+	<c:set value="0" var="index" scope="page" />
+	<c:forEach var="reserva" items="${sessionScope.pedidoReservas }">
+		<c:if test="${index == 0 }">
+			Descrição da Reserva<br>
+			Sala: <c:out value="${sessionScope.nomeSala }"/><br>
+			Responsável: <c:out value="${reserva.getResponsavel() }"/><br>
+			Motivo: <c:out value="${reserva.getMotivo() }"/><br>
+			Projeto: <c:out value="${reserva.getProjeto() }"/><br>
+			Descrição: <c:out value="${reserva.getDescricao() }"/><br><br>
+		</c:if>
 		<c:out value="${reserva.getDataStringCompleta() }"/>:00<br>
+		<c:set value="${index+1 }" var="index" />	
 	</c:forEach>
 	
-
+	<button type="submit" name="opcao" value="aceitar">Aceiar</button>
+	<button type="submit" name="opcao" value="rejeitar">Rejeitar</button>
+	
 </form>
 </body>
 </html>

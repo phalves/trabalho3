@@ -86,6 +86,9 @@ public class DataController {
 		pstmt.setInt(pos++, usr.getAdministrador());
 
 		status = pstmt.executeUpdate();
+		
+		pstmt.close();
+		con.close();
 
 		return status == 1 ? 1 : 0;
 	}
@@ -174,6 +177,9 @@ public class DataController {
 		pstmt.setString(pos++, nome);
 
 		status = pstmt.executeUpdate();
+		
+		pstmt.close();
+		con.close();
 
 		return status == 1 ? 1 : 0;
 	}
@@ -430,6 +436,8 @@ public class DataController {
 
 			pstmt.executeUpdate();			
 		}
+		pstmt.close();
+		con.close();
 	}
 
 	// Pega os simbolos da marcação no banco
@@ -526,9 +534,7 @@ public class DataController {
 		pstmt.close();
 		con.close();
 
-		return nome;
-		
-		
+		return nome;	
 	}
 	
 	
@@ -553,8 +559,6 @@ public class DataController {
 		pstmt.setTimestamp(3, t2);
 
 		resultSet = pstmt.executeQuery();
-
-		
 
 		while(resultSet.next())
 		{
@@ -612,7 +616,44 @@ public class DataController {
 			reservas.add(reserva);
 		}
 		
+		pstmt.close();
+		con.close();
+		
 		return reservas;
+	}
+	
+	public void confirmaReservas(ArrayList<Reserva> reservas) throws ClassNotFoundException, SQLException, ParseException {
+		
+		System.out.println("CONFIRMA RESERVA");
+		con = Conexao.conexao();
+		for(Reserva reserva: reservas)
+		{
+			sql = "UPDATE Reserva set Confirmado=1 where Relacao = ?";
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, reserva.getRelacao());
+				
+			pstmt.executeUpdate();	
+		}
+		pstmt.close();
+		con.close();
+	}
+	
+	public void rejeitaReservas(ArrayList<Reserva> reservas) throws ClassNotFoundException, SQLException, ParseException {
+		
+		System.out.println("REJEITA RESERVA");
+		con = Conexao.conexao();
+		for(Reserva reserva: reservas)
+		{
+			sql = "DELETE from Reserva where Relacao = ?";
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, reserva.getRelacao());
+				
+			pstmt.executeUpdate();	
+		}
+		pstmt.close();
+		con.close();
 	}
 
 }

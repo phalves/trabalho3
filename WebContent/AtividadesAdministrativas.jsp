@@ -12,7 +12,7 @@
 	<c:redirect url="errorpage.jsp"/>
 </c:if>
 <body>
-
+	
 	<div class="navbar navbar-inverse">
 		<div class="navbar-inner">
 			<a class="brand" href="#">Sistema de Reserva de Salas</a>
@@ -24,6 +24,20 @@
 	</div>
 	
 	<div class="container">
+		<c:if test="${sessionScope.mensagem != null}">
+				<div class="alert alert-error">
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+					<strong>Aviso:</strong>
+					<c:out value="${sessionScope.mensagem}"></c:out>
+				</div>
+			</c:if>
+			<c:if test="${sessionScope.mensagemSucesso != null}">
+				<div class="alert alert-success">
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+					<strong>Aviso:</strong>
+					<c:out value="${sessionScope.mensagemSucesso}"></c:out>
+				</div>
+		</c:if>
 		<div class="row">
 			<div class="page-header">
 					<h1 style="text-align: center">Atividades Administrativas</h1>
