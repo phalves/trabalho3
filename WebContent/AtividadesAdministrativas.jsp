@@ -32,7 +32,7 @@
 				<table class="table table-bordered">
 					<tr>
 						<td>
-							<a href="HomologacaoReserva" class="btn btn-link">Homologação de pedido de reserva</a>
+							<a href="HomologacaoServlet" class="btn btn-link">Homologação de pedido de reserva</a>
 						</td>
 					</tr>
 					<tr>

@@ -96,7 +96,7 @@
 							console.log(selectedDateString);
 							
 							// Faz o request pro servlet passando os parametros
-							postToUrl("MarcacaoServlet", parameters);
+							postToUrl("HomologacaoServlet", parameters);
 							
 							selectCurrentWeek();
 						},
@@ -151,7 +151,7 @@
 			});
 		});
 	</script>
-	<title>Marcação de Salas</title>
+	<title>Homolocação de reservas</title>
 </head>
 <body>
 
@@ -199,44 +199,31 @@
 				</select>
 				<p>2 - Selecione mês e semana:</p><br>
 				<div class="week-picker" class="span4" style="margin-bottom: 14px;"></div>
-				<p>Legenda da tabela ao lado:</p>
-				<ul>
-					<li>X - Reserva confirmada</li>
-					<li>? - Pedido de reserva em análise</li>
-				</ul>
-				<form action="MarcacaoServlet" method="post" class="form">
+				
+				<form action="HomologacaoServlet" method="post" class="form">
 					<fieldset>
-						<legend>Informações da Reserva</legend>
-						<input type="text" name="responsavel" placeholder="Responsável"> 
-						<input type="text"name="motivo" placeholder="Motivo"> 
-						<input type="text" name="projeto" placeholder="Projeto">
-						<textarea rows="2" name="descricao" placeholder="Descrição"></textarea>
+
 						<table class="table table-condensed">
 							<thead>
 								<tr>
-									<th>Dia</th>
-									<th>Horário</th>
-									<th> </th>
+									<th>Nome</th>
+									<th>Relacao</th>
 								</tr>
 							</thead>
 							<tbody>
-								<c:set value="0" var="index" scope="page" />
 								<c:forEach var="reserva" items = "${sessionScope.reservas}">
 									<tr>
-										<td><c:out value="${reserva.getDataString() }"></c:out></td>
+										<td><c:out value="${reserva.getIdUsuario() }"></c:out></td>
 										<td>
-											<c:out value="${reserva.getData().getHours() }"></c:out>:00 -
-											<c:out value="${reserva.getData().getHours()+1 }"></c:out>:00
+											<c:out value="${reserva.getRelacao() }"></c:out>
 										</td>	
 										<td>
-											<button class="btn btn-danger" type="submit" name="indexReserva" value="${index }">X</button>
+											<button class="btn btn-primary" type="submit" name="relacao" value="${reserva.getRelacao() }">Detalhes</button>
 										</td>
 									</tr>
-								<c:set value="${index+1 }" var="index" />	
 								</c:forEach>
 							</tbody>
 						</table>
-						<button class="btn btn-primary" name="opcao" value="marcar" type="submit">Enviar pedido</button>
 					</fieldset>
 				</form>
 			</div>
@@ -256,98 +243,7 @@
 						</thead>
 						<tbody>
 							<tr>
-								<c:set value="6" var="hora" scope="page" />
-								
-								<c:forEach items="${sessionScope.dias }" var="row">
-									<c:set value="${hora+1 }" var="hora" />
-									<c:set value="0" var="diaSemana" scope="page" />		
-									<tr>
-									<td align="right"><c:out value="${hora }"></c:out>:00<br /><c:out value="${hora+1 }"/>:00
-									</td>
-									<c:forEach items="${row }" var="cell">
-										<c:choose>
-											<c:when test="${cell == 'vazio' }">
-												<c:if test="${diaSemana == 0 }">
-													<td><a href="MarcacaoServlet?dia=${sessionScope.segunda }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=${hora }&idsala=${sessionScope.idSala }&opcao=adicionar">Livre</a>
-														
-													</td>
-												</c:if>
-												<c:if test="${diaSemana == 1 }">
-													<td><a href="MarcacaoServlet?dia=${sessionScope.terca }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=${hora }&idsala=${sessionScope.idSala }&opcao=adicionar">Livre</a>
-														
-													</td>
-												</c:if>
-												<c:if test="${diaSemana == 2 }">
-													<td><a href="MarcacaoServlet?dia=${sessionScope.quarta }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=${hora }&idsala=${sessionScope.idSala }&opcao=adicionar">Livre</a>
-														
-													</td>
-												</c:if>
-												<c:if test="${diaSemana == 3 }">
-													<td><a href="MarcacaoServlet?dia=${sessionScope.quinta }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=${hora }&idsala=${sessionScope.idSala }&opcao=adicionar">Livre</a>
-														
-													</td>
-												</c:if>
-												<c:if test="${diaSemana == 4 }">
-													<td><a href="MarcacaoServlet?dia=${sessionScope.sexta }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=${hora }&idsala=${sessionScope.idSala }&opcao=adicionar">Livre</a>
-														
-													</td>
-												</c:if>
-												<c:if test="${diaSemana == 5 }">
-													<td><a href="MarcacaoServlet?dia=${sessionScope.sabado }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=${hora }&idsala=${sessionScope.idSala }&opcao=adicionar">Livre</a>
-														
-													</td>
-												</c:if>
-												<c:if test="${diaSemana == 6 }">
-													<td><a href="MarcacaoServlet?dia=${sessionScope.domingo }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=${hora }&idsala=${sessionScope.idSala }&opcao=adicionar">Livre</a>
-														
-													</td>
-												</c:if>
-											</c:when>
-											<c:when test="${cell == 'X'}">
-												<td>X</td>
-											</c:when>
-											<c:when test="${cell == '?'}">
-												<c:if test="${diaSemana == 0 }">
-													<td><a href="MarcacaoServlet?dia=${sessionScope.segunda }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=${hora }&idsala=${sessionScope.idSala }&opcao=adicionar">Em análise</a>
-														
-													</td>
-												</c:if>
-												<c:if test="${diaSemana == 1 }">
-													<td><a href="MarcacaoServlet?dia=${sessionScope.terca }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=${hora }&idsala=${sessionScope.idSala }&opcao=adicionar">Em análise</a>
-														
-													</td>
-												</c:if>
-												<c:if test="${diaSemana == 2 }">
-													<td><a href="MarcacaoServlet?dia=${sessionScope.quarta }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=${hora }&idsala=${sessionScope.idSala }&opcao=adicionar">Em análise</a>
-														
-													</td>
-												</c:if>
-												<c:if test="${diaSemana == 3 }">
-													<td><a href="MarcacaoServlet?dia=${sessionScope.quinta }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=${hora }&idsala=${sessionScope.idSala }&opcao=adicionar">Em análise</a>
-														
-													</td>
-												</c:if>
-												<c:if test="${diaSemana == 4 }">
-													<td><a href="MarcacaoServlet?dia=${sessionScope.sexta }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=${hora }&idsala=${sessionScope.idSala }&opcao=adicionar">Em análise</a>
-														
-													</td>
-												</c:if>
-												<c:if test="${diaSemana == 5 }">
-													<td><a href="MarcacaoServlet?dia=${sessionScope.sabado }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=${hora }&idsala=${sessionScope.idSala }&opcao=adicionar">Em análise</a>
-														
-													</td>
-												</c:if>
-												<c:if test="${diaSemana == 6 }">
-													<td><a href="MarcacaoServlet?dia=${sessionScope.domingo }&mes=${sessionScope.startMonth }&ano=${sessionScope.startYear }&hora=${hora }&idsala=${sessionScope.idSala }&opcao=adicionar">Em análise</a>
-														
-													</td>
-												</c:if>
-											</c:when>
-										</c:choose>
-										<c:set value="${diaSemana+1 }" var="diaSemana" />
-									</c:forEach>
-									</tr>
-								</c:forEach>
+							
 							</tr>
 						</tbody>
 					</table>

@@ -50,6 +50,10 @@ public class AutenticacaoServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		
 		try{
+			ArrayList<Sala> salas;
+			salas = d.getSalas();
+			session.setAttribute("salas", salas);
+			
 			if(tipo.equals("adm"))
 			{
 				usuario = d.autentica(username, senha);
@@ -77,9 +81,7 @@ public class AutenticacaoServlet extends HttpServlet {
 				usuario = d.autentica(username, senha);
 				if (usuario!=null)
 				{
-					ArrayList<Sala> salas;
-					salas = d.getSalas();
-					session.setAttribute("salas", salas);
+					
 					session.setAttribute("usuario", usuario);
 					request.getRequestDispatcher("Marcacao.jsp").forward(request, response);
 				}
