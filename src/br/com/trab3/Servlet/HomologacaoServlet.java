@@ -136,7 +136,7 @@ public class HomologacaoServlet extends HttpServlet {
 				String mensagem = "Seu pedido de reserva de sala foi aceito";
 				String nomeSala = d.getNomeSala(Integer.parseInt(idSala));
 				d.EnviarEmail(usuario, nomeSala, "Situacao: "+mensagem+". "+observacao);
-				request.getRequestDispatcher("AtividadesAdministrativas.jsp").forward(request, response);
+				request.getRequestDispatcher("Homologacao.jsp").forward(request, response);
 			}
 			else if(opcao!=null && opcao.equals("rejeitar"))
 			{
@@ -151,7 +151,7 @@ public class HomologacaoServlet extends HttpServlet {
 				String mensagem = "Seu pedido de reserva de sala foi rejeitado";
 				String nomeSala = d.getNomeSala(Integer.parseInt(idSala));
 				d.EnviarEmail(usuario, nomeSala, "Situacao: "+mensagem+". "+observacao);
-				request.getRequestDispatcher("AtividadesAdministrativas.jsp").forward(request, response);
+				request.getRequestDispatcher("Homologacao.jsp").forward(request, response);
 			}
 			else
 			{
