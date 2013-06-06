@@ -136,6 +136,7 @@ public class MarcacaoServlet extends HttpServlet {
 		if ( opcao != null && opcao.equals("adicionar") )
 		{
 			try {
+				int flagRepetido = 0;
 				dataFormatada = formato.parse(dataString);
 				System.out.println("Data Formatada: "+ dataFormatada);
 				
@@ -145,9 +146,21 @@ public class MarcacaoServlet extends HttpServlet {
 				reserva.setIdUsuario(usuario.getIdUsuario());
 				reserva.setConfirmado(0);
 				
-				reservas.add(reserva);
+				//Verifica se existe reserva no mesmo dia e hora
+				for (Reserva reservaV : reservas) {
+					if (reservaV.getData().equals(dataFormatada))
+					{
+						flagRepetido=1;
+					}
+				}
 				
-				session.setAttribute("reservas", reservas);
+				//Caso nao tenha nenhuma reserva com a data informada, adiciona na lista de resevas
+				if(flagRepetido==0)
+				{
+					reservas.add(reserva);
+					session.setAttribute("reservas", reservas);
+				}			
+					
 				
 			} catch (ParseException e) {
 				mensagem = "Selecione uma semana no calendario primeiro";
@@ -184,7 +197,7 @@ public class MarcacaoServlet extends HttpServlet {
 				ArrayList<Usuario> usuarios;
 				usuarios = d.getUsuariosAdministradores();
 				String nomeSala = d.getNomeSala(Integer.parseInt(idSala));
-				d.EnviarEmail(usuarios, nomeSala);
+				d.EnviarEmail(usuarios, nomeSala, usuario);
 				
 				session.removeAttribute("reservas");
 				

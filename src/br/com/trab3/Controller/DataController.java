@@ -334,7 +334,7 @@ public class DataController {
 
 	}
 	
-	public void EnviarEmail (ArrayList<Usuario> usuarios,String sala)
+	public void EnviarEmail (ArrayList<Usuario> usuarios,String sala,Usuario usuSessao)
 	{
 		
 		for(Usuario usuario : usuarios){
@@ -369,7 +369,7 @@ public class DataController {
 				message.setRecipients(Message.RecipientType.TO,
 						InternetAddress.parse(to));
 				message.setSubject("Pedido de reserva de sala");
-				message.setText("O usuario "+usuario.getNomeCompleto()+" deseja reservar a sala "+ sala + "..");
+				message.setText("O usuario "+usuSessao.getNomeCompleto()+" deseja reservar a sala "+ sala + "..");
 
 				Transport.send(message);
 

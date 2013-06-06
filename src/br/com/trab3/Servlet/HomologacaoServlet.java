@@ -124,6 +124,7 @@ public class HomologacaoServlet extends HttpServlet {
 			}
 			else if(opcao!=null && opcao.equals("aceitar"))
 			{
+				String observacao = request.getParameter("observacao");
 				ArrayList<Reserva> pedidoReservas = (ArrayList<Reserva>)session.getAttribute("pedidoReservas");
 				d.confirmaReservas(pedidoReservas);
 				session.setAttribute("mensagemSucesso", "Pedido Confirmado");
@@ -134,11 +135,12 @@ public class HomologacaoServlet extends HttpServlet {
 				Usuario usuario = d.getUsuario(reserva.getIdUsuario());
 				String mensagem = "Seu pedido de reserva de sala foi aceito";
 				String nomeSala = d.getNomeSala(Integer.parseInt(idSala));
-				d.EnviarEmail(usuario, nomeSala, mensagem);
+				d.EnviarEmail(usuario, nomeSala, "Situacao: "+mensagem+". "+observacao);
 				request.getRequestDispatcher("AtividadesAdministrativas.jsp").forward(request, response);
 			}
 			else if(opcao!=null && opcao.equals("rejeitar"))
 			{
+				String observacao = request.getParameter("observacao");
 				ArrayList<Reserva> pedidoReservas = (ArrayList<Reserva>)session.getAttribute("pedidoReservas");
 				d.rejeitaReservas(pedidoReservas);
 				session.setAttribute("mensagem", "Pedido Rejeitado");
@@ -148,7 +150,7 @@ public class HomologacaoServlet extends HttpServlet {
 				Usuario usuario = d.getUsuario(reserva.getIdUsuario());
 				String mensagem = "Seu pedido de reserva de sala foi rejeitado";
 				String nomeSala = d.getNomeSala(Integer.parseInt(idSala));
-				d.EnviarEmail(usuario, nomeSala, mensagem);
+				d.EnviarEmail(usuario, nomeSala, "Situacao: "+mensagem+". "+observacao);
 				request.getRequestDispatcher("AtividadesAdministrativas.jsp").forward(request, response);
 			}
 			else
