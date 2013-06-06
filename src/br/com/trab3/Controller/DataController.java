@@ -657,6 +657,52 @@ public class DataController {
 		return reservas;
 	}
 	
+	public ArrayList<Reserva> getRelacoesConfirmadas(java.util.Date dataInicio, int idsala) throws ClassNotFoundException, SQLException, ParseException {
+		ArrayList<Reserva> reservas = new ArrayList<Reserva>();
+	
+		con = Conexao.conexao();
+	
+		GregorianCalendar calendar = new GregorianCalendar();
+
+		calendar.setTime(dataInicio);
+		java.sql.Timestamp t = new Timestamp(calendar.getTime().getTime());
+		calendar.add(Calendar.DAY_OF_MONTH, 7);			
+		java.sql.Timestamp t2 = new Timestamp(calendar.getTime().getTime());
+
+		sql = "SELECT * FROM Reserva as r, Usuario as u, Sala as s where "+
+				"r.Id_Usuario=u.Id_Usuario and s.Id_Sala = r.Id_Sala and r.Id_Sala = ? and r.Confirmado=1 and "+
+				"data BETWEEN ? AND ? group by r.Relacao;";
+		pstmt = con.prepareStatement(sql);
+		pstmt.setInt(1, idsala);
+		pstmt.setTimestamp(2, t);
+		pstmt.setTimestamp(3, t2);
+
+		resultSet = pstmt.executeQuery();
+
+		while(resultSet.next())
+		{
+			Reserva reserva = new Reserva();
+			reserva.setIdReserva(resultSet.getInt("Id"));
+			reserva.setRelacao(resultSet.getInt("Relacao"));
+			reserva.setIdSala(resultSet.getInt("Id_Sala"));
+			reserva.setIdUsuario(resultSet.getInt("Id_Usuario"));
+			reserva.setData(resultSet.getTimestamp("Data"));
+			reserva.setResponsavel(resultSet.getString("Responsavel"));
+			reserva.setMotivo(resultSet.getString("Motivo"));
+			reserva.setProjeto(resultSet.getString("Projeto"));
+			reserva.setDescricao(resultSet.getString("Descricao"));
+			reserva.setConfirmado(resultSet.getInt("Confirmado"));
+			
+			reservas.add(reserva);
+		}
+	
+		
+		pstmt.close();
+		con.close();
+
+		return reservas;
+	}
+	
 	public ArrayList<Reserva> getReservasComRelacaoId(int idRelacao) throws ClassNotFoundException, SQLException, ParseException {
 		ArrayList<Reserva> reservas = new ArrayList<Reserva>();
 	

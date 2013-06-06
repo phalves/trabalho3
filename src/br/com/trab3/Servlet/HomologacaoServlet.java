@@ -67,6 +67,13 @@ public class HomologacaoServlet extends HttpServlet {
 			reservas = new ArrayList<Reserva>();
 		}
 		
+		ArrayList<Reserva> reservasConfirmadas = (ArrayList<Reserva>)session.getAttribute("reservas");
+		
+		if (reservasConfirmadas == null)
+		{
+			reservasConfirmadas = new ArrayList<Reserva>();
+		}
+		
 		if (dia != null)
 		{
 				
@@ -109,6 +116,7 @@ public class HomologacaoServlet extends HttpServlet {
 
 				dataFormatada = formato2.parse(dataString2);
 				reservas = d.getRelacoes(dataFormatada, Integer.parseInt(idSala));
+				reservasConfirmadas = d.getRelacoesConfirmadas(dataFormatada, Integer.parseInt(idSala));
 				String nomeSala = d.getNomeSala(Integer.parseInt(idSala));
 				session.setAttribute("nomeSala", nomeSala);
 				session.setAttribute("reservas", reservas);
