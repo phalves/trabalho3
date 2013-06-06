@@ -154,6 +154,9 @@
 	<title>Marcação de Salas</title>
 </head>
 <body>
+	<c:if test="${sessionScope.usuario == null }">
+			<c:redirect url="errorpage.jsp"/>
+	</c:if>
 
 	<div class="navbar navbar-inverse">
 		<div class="navbar-inner">

@@ -8,6 +8,9 @@
 <title>Detalhes Reserva</title>
 </head>
 <body>
+<c:if test="${sessionScope.usuario.getAdministrador() != 1 }">
+		<c:redirect url="errorpage.jsp"/>
+</c:if>
 <form method="post" action="HomologacaoServlet">
 	
 	<c:set value="0" var="index" scope="page" />

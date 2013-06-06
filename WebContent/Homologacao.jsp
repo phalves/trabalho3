@@ -154,7 +154,9 @@
 	<title>Homolocação de reservas</title>
 </head>
 <body>
-
+	<c:if test="${sessionScope.usuario.getAdministrador() != 1 }">
+		<c:redirect url="errorpage.jsp"/>
+	</c:if>
 	<div class="navbar navbar-inverse">
 		<div class="navbar-inner">
 			<a class="brand" href="#">Sistema de Reserva de Salas</a>
