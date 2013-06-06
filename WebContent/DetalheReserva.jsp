@@ -10,9 +10,21 @@
 <body>
 <form method="post" action="HomologacaoServlet">
 	
+	
+	Descrição da Reserva<br>
+	Sala: <c:out value="${sessionScope.nomeSala }"/><br>
+	Responsável: <c:out value="${reserva.getResponsavel() }"/><br>
+	Motivo: <c:out value="${reserva.getMotivo() }"/><br>
+	Projeto: <c:out value="${reserva.getProjeto() }"/><br>
+	Descrição: <c:out value="${reserva.getDescricao() }"/><br>
+	
+	<br>
+	
+	Datas:<br>
 	<c:forEach var="reserva" items="${sessionScope.reservas }">
-		<c:out value="${reserva.getDataStringCompleta() }"/> <c:out value="${reserva.getIdSala() }"/><br>			
+		<c:out value="${reserva.getDataStringCompleta() }"/>:00<br>
 	</c:forEach>
+	
 
 </form>
 </body>

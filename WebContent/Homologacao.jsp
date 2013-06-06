@@ -213,7 +213,7 @@
 							<tbody>
 								<c:forEach var="reserva" items = "${sessionScope.reservas}">
 									<tr>
-										<td><c:out value="${reserva.getIdUsuario() }"></c:out></td>
+										<td><c:out value="${sessionScope.nomeSala }"></c:out></td>
 										<td>
 											<c:out value="${reserva.getRelacao() }"></c:out>
 										</td>	

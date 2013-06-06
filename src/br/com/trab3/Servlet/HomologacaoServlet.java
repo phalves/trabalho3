@@ -89,10 +89,15 @@ public class HomologacaoServlet extends HttpServlet {
 		String dataString2 = startDay+"-"+mes+"-"+ano+ " " +hora;
 		
 		try {
+			
+			
 			if ( relacao != null )
 			{
+				
 				int idRelacao = Integer.parseInt(relacao);
 				reservas = d.getReservasComRelacaoId(idRelacao);
+				String nomeSala = d.getNomeSala(Integer.parseInt(idSala));
+				session.setAttribute("nomeSala", nomeSala);
 				session.setAttribute("reservas", reservas);
 				request.getRequestDispatcher("DetalheReserva.jsp").forward(request, response);
 			}
@@ -102,6 +107,8 @@ public class HomologacaoServlet extends HttpServlet {
 
 				dataFormatada = formato2.parse(dataString2);
 				reservas = d.getRelacoes(dataFormatada, Integer.parseInt(idSala));
+				String nomeSala = d.getNomeSala(Integer.parseInt(idSala));
+				session.setAttribute("nomeSala", nomeSala);
 				session.setAttribute("reservas", reservas);
 				request.getRequestDispatcher("Homologacao.jsp").forward(request, response);
 			}
