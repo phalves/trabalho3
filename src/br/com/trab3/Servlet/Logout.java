@@ -31,7 +31,19 @@ public class Logout extends HttpServlet {
 		HttpSession session = request.getSession();
 		session.setAttribute("usuario", null);
 		session.removeAttribute("reservas");
+		session.removeAttribute("salas");
+		session.removeAttribute("dia");
+		session.removeAttribute("mes");
+		session.removeAttribute("ano");
+		session.removeAttribute("idSala");
+		session.removeAttribute("startDay");
+		session.removeAttribute("segunda");
+		session.removeAttribute("nomeSala");
+		session.removeAttribute("pedidoReservas");
+		session.removeAttribute("mensagem");
+		session.removeAttribute("mensagemSucesso");
 		session.removeAttribute("usuario");
+		
 		
 		response.sendRedirect("index.html");
 	}
