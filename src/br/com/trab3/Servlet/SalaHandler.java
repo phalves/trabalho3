@@ -9,11 +9,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import br.com.trab3.Controller.DataController;
 import br.com.trab3.Model.Sala;
-import br.com.trab3.Model.Usuario;
 
 /**
  * Servlet implementation class SalaHandler
@@ -44,8 +42,7 @@ public class SalaHandler extends HttpServlet {
 		String tipo = request.getParameter("tipo");
 		String mensagem;
 		DataController d = new DataController();
-		ArrayList<Sala> salas;
-		HttpSession session = request.getSession();
+		ArrayList<Sala> salas;	
 
 		if(tipo == null)
 		{
@@ -70,10 +67,6 @@ public class SalaHandler extends HttpServlet {
 					
 					status = d.criaSala(sala);
 					salas = d.getSalas();
-					
-					// Envio de email
-					Usuario usuario = (Usuario)session.getAttribute("usuario");
-					d.EnviarEmail(usuario, sala);
 
 					if(status == 1)
 						mensagem = "Sala inserida com sucesso!";

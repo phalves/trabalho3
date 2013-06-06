@@ -120,6 +120,35 @@ public class DataController {
 		return usuarios;
 	}
 	
+	public Usuario getUsuario(int idUsuario) throws ClassNotFoundException, SQLException {
+		ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
+
+		con = Conexao.conexao();
+		sql = "select * from Usuario where Id_Usuario = ?";
+		pstmt = con.prepareStatement(sql);
+		pstmt.setInt(1,	idUsuario);
+		resultSet = pstmt.executeQuery();
+
+		Usuario usr = new Usuario();
+		
+		if(resultSet.next())
+		{
+			usr.setIdUsuario(Integer.parseInt(resultSet.getString("Id_Usuario")));
+			usr.setUsername(resultSet.getString("Username"));
+			usr.setNomeCompleto(resultSet.getString("NomeCompleto"));
+			usr.setEmail(resultSet.getString("Email"));
+			usr.setSenha(resultSet.getString("Senha"));
+			usr.setAdministrador(Integer.parseInt(resultSet.getString("Administrador")));
+
+			usuarios.add(usr);
+		}
+
+		pstmt.close();
+		con.close();
+
+		return usr;
+	}
+	
 	public ArrayList <Usuario> getUsuariosAdministradores() throws ClassNotFoundException, SQLException {
 		ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
 
@@ -353,6 +382,50 @@ public class DataController {
 
 	}
 	
+	public void EnviarEmail (Usuario usuario,String sala, String mensagem)
+	{
+		// Recipient's email ID needs to be mentioned.
+		String to = usuario.getEmail();
+
+		// Sender's email ID needs to be mentioned
+		final String from = "inf1407envia@gmail.com";
+		final String password = "Web2013#";
+
+		// Get system properties
+		Properties props = System.getProperties();
+
+		props.put("mail.smtp.host", "smtp.gmail.com");
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.port", "465");
+		props.put("mail.smtp.socketFactory.port", "465");
+		props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+
+		// Get the default Session object.
+		Session session = Session.getInstance(props,
+				new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication("inf1407envia@gmail.com", password);
+			}
+		});
+
+
+		try{
+			Message message = new MimeMessage(session);
+			message.setFrom(new InternetAddress(from));
+			message.setRecipients(Message.RecipientType.TO,
+					InternetAddress.parse(to));
+			message.setSubject("Homologação de Reserva de Sala");
+			message.setText(mensagem);
+
+			Transport.send(message);
+
+			System.out.println("Enviado...");
+
+		} catch (MessagingException e) {
+			throw new RuntimeException(e);
+		}
+
+	}
 	//
 	// Métodos relacionados a reserva
 	//

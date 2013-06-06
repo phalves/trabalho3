@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 
 import br.com.trab3.Controller.DataController;
 import br.com.trab3.Model.Reserva;
+import br.com.trab3.Model.Usuario;
 
 /**
  * Servlet implementation class HomologacaoServlet
@@ -42,6 +43,7 @@ public class HomologacaoServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@SuppressWarnings("unchecked")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		
@@ -56,7 +58,6 @@ public class HomologacaoServlet extends HttpServlet {
 		String dia = (request.getParameter("startDay"));
 		String mes = (request.getParameter("startMonth"));
 		String ano = (request.getParameter("startYear"));
-		String hora = (request.getParameter("hora"));
 		String idSala = (request.getParameter("idSala"));
 		
 		ArrayList<Reserva> reservas = (ArrayList<Reserva>)session.getAttribute("reservas");
@@ -119,6 +120,13 @@ public class HomologacaoServlet extends HttpServlet {
 				d.confirmaReservas(pedidoReservas);
 				session.setAttribute("mensagemSucesso", "Pedido Confirmado");
 				session.removeAttribute("reservas");
+				
+				//Envia email
+				Reserva reserva = pedidoReservas.get(0);
+				Usuario usuario = d.getUsuario(reserva.getIdUsuario());
+				String mensagem = "Seu pedido de reserva de sala foi aceito";
+				String nomeSala = d.getNomeSala(Integer.parseInt(idSala));
+				d.EnviarEmail(usuario, nomeSala, mensagem);
 				request.getRequestDispatcher("AtividadesAdministrativas.jsp").forward(request, response);
 			}
 			else if(opcao!=null && opcao.equals("rejeitar"))
@@ -127,6 +135,12 @@ public class HomologacaoServlet extends HttpServlet {
 				d.rejeitaReservas(pedidoReservas);
 				session.setAttribute("mensagem", "Pedido Rejeitado");
 				session.removeAttribute("reservas");
+				
+				Reserva reserva = pedidoReservas.get(0);
+				Usuario usuario = d.getUsuario(reserva.getIdUsuario());
+				String mensagem = "Seu pedido de reserva de sala foi rejeitado";
+				String nomeSala = d.getNomeSala(Integer.parseInt(idSala));
+				d.EnviarEmail(usuario, nomeSala, mensagem);
 				request.getRequestDispatcher("AtividadesAdministrativas.jsp").forward(request, response);
 			}
 			else
