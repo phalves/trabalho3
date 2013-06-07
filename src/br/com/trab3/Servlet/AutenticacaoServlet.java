@@ -49,6 +49,21 @@ public class AutenticacaoServlet extends HttpServlet {
 		DataController d = new DataController();
 		HttpSession session = request.getSession();
 		
+		session.removeAttribute("reservas");
+		session.removeAttribute("salas");
+		session.removeAttribute("dia");
+		session.removeAttribute("dias");
+		session.removeAttribute("mes");
+		session.removeAttribute("ano");
+		session.removeAttribute("idSala");
+		session.removeAttribute("startDay");
+		session.removeAttribute("segunda");
+		session.removeAttribute("nomeSala");
+		session.removeAttribute("pedidoReservas");
+		session.removeAttribute("mensagem");
+		session.removeAttribute("mensagemSucesso");
+		session.removeAttribute("usuario");
+		
 		try{
 			ArrayList<Sala> salas;
 			salas = d.getSalas();
@@ -81,9 +96,16 @@ public class AutenticacaoServlet extends HttpServlet {
 				usuario = d.autentica(username, senha);
 				if (usuario!=null)
 				{
-					
-					session.setAttribute("usuario", usuario);
-					request.getRequestDispatcher("Marcacao.jsp").forward(request, response);
+					if(salas.isEmpty())
+					{
+						request.setAttribute("mensagem", "Nao há nenhuma sala cadastrada no momento");
+						request.getRequestDispatcher("errorpage.jsp").forward(request, response);
+					}
+					else
+					{
+						session.setAttribute("usuario", usuario);
+						request.getRequestDispatcher("Marcacao.jsp").forward(request, response);
+					}
 				}
 								
 				else{

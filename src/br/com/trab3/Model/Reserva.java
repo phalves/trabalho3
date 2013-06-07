@@ -15,6 +15,7 @@ public class Reserva {
 	private String Motivo;
 	private String Projeto;
 	private String Descricao;
+	private String NomeUsuario;
 	
 	public int getIdReserva() {
 		return IdReserva;
@@ -83,6 +84,12 @@ public class Reserva {
 	}
 	public void setDescricao(String descricao) {
 		Descricao = descricao;
+	}
+	public String getNomeUsuario(){
+		return NomeUsuario;	
+	}
+	public void setNomeUsuario(String nomeUsuario) {
+		NomeUsuario = nomeUsuario;
 	}
 	
 

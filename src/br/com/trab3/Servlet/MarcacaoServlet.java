@@ -107,6 +107,9 @@ public class MarcacaoServlet extends HttpServlet {
 		SimpleDateFormat formato2 = new SimpleDateFormat("dd-MM-yyyy");
 		String dataString = dia+"-"+mes+"-"+ano+ " " +hora;
 		String dataString2 = startDay+"-"+mes+"-"+ano+ " " +hora;
+		String dataString3 = startDay+"-"+mes+"-"+ano;
+		
+		request.setAttribute("semana", dataString3);
 		
 		if ( flag == 0 )
 		{
@@ -197,7 +200,9 @@ public class MarcacaoServlet extends HttpServlet {
 				ArrayList<Usuario> usuarios;
 				usuarios = d.getUsuariosAdministradores();
 				String nomeSala = d.getNomeSala(Integer.parseInt(idSala));
-				d.EnviarEmail(usuarios, nomeSala, usuario);
+				
+				mensagem="na semana do dia "+dataString3;
+				d.EnviarEmail(usuarios, nomeSala, usuario, mensagem);
 				
 				session.removeAttribute("reservas");
 				

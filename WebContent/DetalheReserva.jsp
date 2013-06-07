@@ -29,7 +29,7 @@
 	<br>Motivo ou observação<br>
 	<input type="text" name="observacao"/><br><br>
 	
-	<button type="submit" name="opcao" value="aceitar">Aceiar</button>
+	<button type="submit" name="opcao" value="aceitar">Aceitar</button>
 	<button type="submit" name="opcao" value="rejeitar">Rejeitar</button>
 	
 </form>

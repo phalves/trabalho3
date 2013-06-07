@@ -1,7 +1,6 @@
 package br.com.trab3.Controller;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -334,7 +333,7 @@ public class DataController {
 
 	}
 	
-	public void EnviarEmail (ArrayList<Usuario> usuarios,String sala,Usuario usuSessao)
+	public void EnviarEmail (ArrayList<Usuario> usuarios,String sala,Usuario usuSessao, String mensagem)
 	{
 		
 		for(Usuario usuario : usuarios){
@@ -369,7 +368,7 @@ public class DataController {
 				message.setRecipients(Message.RecipientType.TO,
 						InternetAddress.parse(to));
 				message.setSubject("Pedido de reserva de sala");
-				message.setText("O usuario "+usuSessao.getNomeCompleto()+" deseja reservar a sala "+ sala + "..");
+				message.setText("O usuario "+usuSessao.getNomeCompleto()+" deseja reservar a sala "+ sala + ", " + mensagem);
 
 				Transport.send(message);
 
@@ -425,47 +424,6 @@ public class DataController {
 			throw new RuntimeException(e);
 		}
 
-	}
-	//
-	// Métodos relacionados a reserva
-	//
-	
-	//
-	// Retorna um ArrayList contendo objetos de Reserva 
-	//
-	// Parâmetros:
-	// mondayDate - Objeto Date contendo a data da segunda-feira da semana desejada
-	//
-	//
-	protected ArrayList<Reserva> reservationsForHourInWeek( Date mondayDate ) throws ClassNotFoundException, SQLException
-	{
-		ArrayList<Reserva> arr = new ArrayList<Reserva>();
-		
-		con = Conexao.conexao();
-		// TODO: Query não está pronta
-		sql = "SELECT * FROM reserva WHERE data BETWEEN '?' AND '?';";
-		
-		pstmt = con.prepareStatement(sql);
-		pstmt.setDate(1, mondayDate);
-		
-		// Seta a data para domingo, para pegarmos o range de dias
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(mondayDate);
-		cal.add(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);		
-		
-		pstmt.setDate(2, (Date)cal.getTime());
-		
-		resultSet = pstmt.executeQuery();
-		
-		while(resultSet.next())
-		{
-			Reserva r = new Reserva();
-		}
-
-		pstmt.close();
-		con.close();
-		
-		return arr;
 	}
 	
 	public void insereRelacao(ArrayList<Reserva> reservas) throws ClassNotFoundException, SQLException, ParseException {
@@ -710,7 +668,7 @@ public class DataController {
 		int pos = 1;
 		
 		con = Conexao.conexao();
-		sql = "SELECT * FROM Reserva where Relacao = ?";
+		sql = "SELECT * FROM Reserva where Relacao = ? order by Data";
 		pstmt = con.prepareStatement(sql);
 		
 		pstmt.setInt(pos++, idRelacao);

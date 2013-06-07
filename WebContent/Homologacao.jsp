@@ -208,8 +208,8 @@
 						<table class="table table-condensed">
 							<thead>
 								<tr>
-									<th>Nome</th>
-									<th>Relacao</th>
+									<th>Sala</th>
+									<th>Nome Completo</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -217,7 +217,7 @@
 									<tr>
 										<td><c:out value="${sessionScope.nomeSala }"></c:out></td>
 										<td>
-											<c:out value="${reserva.getRelacao() }"></c:out>
+											<c:out value="${reserva.getNomeUsuario() }"></c:out>
 										</td>	
 										<td>
 											<button class="btn btn-primary" type="submit" name="relacao" value="${reserva.getRelacao() }">Detalhes</button>

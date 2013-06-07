@@ -33,6 +33,7 @@ public class Logout extends HttpServlet {
 		session.removeAttribute("reservas");
 		session.removeAttribute("salas");
 		session.removeAttribute("dia");
+		session.removeAttribute("dias");
 		session.removeAttribute("mes");
 		session.removeAttribute("ano");
 		session.removeAttribute("idSala");

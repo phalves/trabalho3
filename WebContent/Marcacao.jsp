@@ -202,6 +202,12 @@
 				</select>
 				<p>2 - Selecione mês e semana:</p><br>
 				<div class="week-picker" class="span4" style="margin-bottom: 14px;"></div>
+				<c:if test="${requestScope.semana == null}">
+					<b><p style="color:red">Você ainda não selecionou uma semana</p></b>
+				</c:if>
+				<c:if test="${requestScope.semana != null}">
+					<b>Você está na semana do dia <c:out value="${requestScope.semana }"/><br><br></b>
+				</c:if>
 				<p>Legenda da tabela ao lado:</p>
 				<ul>
 					<li>X - Reserva confirmada</li>

@@ -106,6 +106,16 @@ public class HomologacaoServlet extends HttpServlet {
 				int idRelacao = Integer.parseInt(relacao);
 				reservas = d.getReservasComRelacaoId(idRelacao);
 				String nomeSala = d.getNomeSala(Integer.parseInt(idSala));
+				
+				Usuario usuario;
+				for(Reserva reserva : reservas)
+				{
+					usuario = d.getUsuario(reserva.getIdUsuario());
+					reserva.setNomeUsuario(usuario.getNomeCompleto());
+					System.out.println(reserva.getNomeUsuario());
+				}
+					
+					
 				session.setAttribute("nomeSala", nomeSala);
 				session.setAttribute("pedidoReservas", reservas);
 				request.getRequestDispatcher("DetalheReserva.jsp").forward(request, response);
@@ -118,6 +128,15 @@ public class HomologacaoServlet extends HttpServlet {
 				reservas = d.getRelacoes(dataFormatada, Integer.parseInt(idSala));
 				reservasConfirmadas = d.getRelacoesConfirmadas(dataFormatada, Integer.parseInt(idSala));
 				String nomeSala = d.getNomeSala(Integer.parseInt(idSala));
+				
+				Usuario usuario;
+				for(Reserva reserva : reservas)
+				{
+					usuario = d.getUsuario(reserva.getIdUsuario());
+					reserva.setNomeUsuario(usuario.getNomeCompleto());
+					System.out.println(reserva.getNomeUsuario());
+				}
+				
 				session.setAttribute("nomeSala", nomeSala);
 				session.setAttribute("reservas", reservas);
 				request.getRequestDispatcher("Homologacao.jsp").forward(request, response);
