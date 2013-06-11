@@ -8,6 +8,9 @@
 	<title>Administração de Usuários</title>
 </head>
 <body>
+	<c:if test="${sessionScope.usuario.getAdministrador() != 1 }">
+		<c:redirect url="errorpage.jsp"/>
+	</c:if>
 
 	<div class="navbar navbar-inverse">
 		<div class="navbar-inner">
