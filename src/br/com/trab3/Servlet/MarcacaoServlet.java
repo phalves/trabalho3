@@ -131,7 +131,6 @@ public class MarcacaoServlet extends HttpServlet {
 		}
 		
 		Usuario usuario = (Usuario)session.getAttribute("usuario");
-		System.out.println("Usuario: "+usuario.getNomeCompleto());
 		
 		//
 		// Adicionar
@@ -141,7 +140,6 @@ public class MarcacaoServlet extends HttpServlet {
 			try {
 				int flagRepetido = 0;
 				dataFormatada = formato.parse(dataString);
-				System.out.println("Data Formatada: "+ dataFormatada);
 				
 				Reserva reserva = new Reserva();
 				reserva.setData(dataFormatada);
@@ -214,11 +212,7 @@ public class MarcacaoServlet extends HttpServlet {
 		{
 			int indexReserva = Integer.parseInt(request.getParameter("indexReserva"));
 			
-			System.out.println(indexReserva);
-			
-			
 			reservas.remove(indexReserva);
-			
 			
 			session.setAttribute("reservas", reservas);
 		}

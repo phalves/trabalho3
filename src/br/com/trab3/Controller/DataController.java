@@ -176,8 +176,6 @@ public class DataController {
 	}
 
 	public int removeUsuario(int id) throws ClassNotFoundException, SQLException {
-		System.out.print("removeUsuario: ");
-		System.out.print(id);
 		
 		con = Conexao.conexao();
 		sql = "delete from Usuario where Id_Usuario = ?";
@@ -236,8 +234,6 @@ public class DataController {
 	}
 
 	public int removeSala(int id) throws ClassNotFoundException, SQLException {
-		System.out.print("removeSala: ");
-		System.out.print(id);
 		
 		con = Conexao.conexao();
 		sql = "delete from Sala where Id_Sala = ?";
@@ -325,8 +321,6 @@ public class DataController {
 
 			Transport.send(message);
 
-			System.out.println("Enviado...");
-
 		} catch (MessagingException e) {
 			throw new RuntimeException(e);
 		}
@@ -372,8 +366,6 @@ public class DataController {
 
 				Transport.send(message);
 
-				System.out.println("Enviado...");
-
 			} catch (MessagingException e) {
 				throw new RuntimeException(e);
 			}
@@ -417,8 +409,6 @@ public class DataController {
 			message.setText(mensagem);
 
 			Transport.send(message);
-
-			System.out.println("Enviado...");
 
 		} catch (MessagingException e) {
 			throw new RuntimeException(e);
@@ -701,7 +691,6 @@ public class DataController {
 	
 	public void confirmaReservas(ArrayList<Reserva> reservas) throws ClassNotFoundException, SQLException, ParseException {
 		
-		System.out.println("CONFIRMA RESERVA");
 		con = Conexao.conexao();
 		for(Reserva reserva: reservas)
 		{
@@ -718,7 +707,6 @@ public class DataController {
 	
 	public void rejeitaReservas(ArrayList<Reserva> reservas) throws ClassNotFoundException, SQLException, ParseException {
 		
-		System.out.println("REJEITA RESERVA");
 		con = Conexao.conexao();
 		for(Reserva reserva: reservas)
 		{

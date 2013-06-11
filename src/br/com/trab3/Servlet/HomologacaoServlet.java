@@ -98,7 +98,6 @@ public class HomologacaoServlet extends HttpServlet {
 		Date dataFormatada;
 		SimpleDateFormat formato2 = new SimpleDateFormat("dd-MM-yyyy");
 		String dataString2 = startDay+"-"+mes+"-"+ano;
-		System.out.println(dataString2);
 		
 		try {
 			if ( relacao != null && opcao==null )
@@ -112,7 +111,6 @@ public class HomologacaoServlet extends HttpServlet {
 				{
 					usuario = d.getUsuario(reserva.getIdUsuario());
 					reserva.setNomeUsuario(usuario.getNomeCompleto());
-					System.out.println(reserva.getNomeUsuario());
 				}
 					
 					
@@ -134,7 +132,6 @@ public class HomologacaoServlet extends HttpServlet {
 				{
 					usuario = d.getUsuario(reserva.getIdUsuario());
 					reserva.setNomeUsuario(usuario.getNomeCompleto());
-					System.out.println(reserva.getNomeUsuario());
 				}
 				
 				session.setAttribute("nomeSala", nomeSala);
