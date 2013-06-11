@@ -83,13 +83,13 @@ public class AutenticacaoServlet extends HttpServlet {
 					{
 						mensagem = "Você não é administrador..";
 						request.setAttribute("mensagem", mensagem);
-						request.getRequestDispatcher("Resultado.jsp").forward(request, response);
+						request.getRequestDispatcher("errorpage.jsp").forward(request, response);
 					}
 				}
 				else{
 					mensagem = "Usuário ou senha incorrtetos..";
 					request.setAttribute("mensagem", mensagem);
-					request.getRequestDispatcher("Resultado.jsp").forward(request, response);
+					request.getRequestDispatcher("errorpage.jsp").forward(request, response);
 				}
 			}
 			else{
@@ -111,7 +111,7 @@ public class AutenticacaoServlet extends HttpServlet {
 				else{
 					mensagem = "Usuário ou senha incorrtetos..";
 					request.setAttribute("mensagem", mensagem);
-					request.getRequestDispatcher("Resultado.jsp").forward(request, response);
+					request.getRequestDispatcher("errorpage.jsp").forward(request, response);
 				}
 
 			}
