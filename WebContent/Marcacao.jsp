@@ -215,11 +215,7 @@
 				</ul>
 				<form action="MarcacaoServlet" method="post" class="form">
 					<fieldset>
-						<legend>Informações da Reserva</legend>
-						<input type="text" name="responsavel" placeholder="Responsável"> 
-						<input type="text"name="motivo" placeholder="Motivo"> 
-						<input type="text" name="projeto" placeholder="Projeto">
-						<textarea rows="2" name="descricao" placeholder="Descrição"></textarea>
+						
 						<table class="table table-condensed">
 							<thead>
 								<tr>
@@ -229,6 +225,8 @@
 								</tr>
 							</thead>
 							<tbody>
+								
+								<b><i><p>Selecione um dia e hora na tabela ao lado</p></i></b>
 								<c:set value="0" var="index" scope="page" />
 								<c:forEach var="reserva" items = "${sessionScope.reservas}">
 									<tr>
@@ -245,7 +243,17 @@
 								</c:forEach>
 							</tbody>
 						</table>
+						
+						<legend>Informações da Reserva</legend>
+						<c:if test="${index >0 }">
+						<p><b><i>Prencha os campos abaixo somente após selecionar todos os dias e horários</i></b></p>
+						<input type="text" name="responsavel" placeholder="Responsável"> 
+						<input type="text"name="motivo" placeholder="Motivo"> 
+						<input type="text" name="projeto" placeholder="Projeto">
+						<textarea rows="2" name="descricao" placeholder="Descrição"></textarea>
+						
 						<button class="btn btn-primary" name="opcao" value="marcar" type="submit">Enviar pedido</button>
+						</c:if>
 					</fieldset>
 				</form>
 			</div>

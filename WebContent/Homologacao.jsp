@@ -199,10 +199,11 @@
 						</c:if>
 					</c:forEach>
 				</select>
-				<p>2 - Selecione mês e semana:</p><br>
-				<div class="week-picker" class="span4" style="margin-bottom: 14px;"></div>
-				
-				<form action="HomologacaoServlet" method="post" class="form">
+				<p>2 - Selecione mês e semana informados no Email:</p><br>
+				<div class="week-picker" class="span4" style="margin-bottom: 14px;"></div>			
+			</div>
+			<div class="span8">
+					<form action="HomologacaoServlet" method="post" class="form">
 					<fieldset>
 
 						<table class="table table-condensed">
@@ -228,27 +229,6 @@
 						</table>
 					</fieldset>
 				</form>
-			</div>
-			<div class="span8">
-					<table class="table table-bordered table-hover" width="100%">
-						<thead>
-							<tr>
-								<th width="9px">Horário</th>
-								<th>SEG</th>
-								<th>TER</th>
-								<th>QUA</th>
-								<th>QUI</th>
-								<th>SEX</th>
-								<th>SÁB</th>
-								<th>DOM</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-							
-							</tr>
-						</tbody>
-					</table>
 			</div>
 		</div>
 	</div>
