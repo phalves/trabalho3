@@ -246,7 +246,7 @@
 						
 						<legend>Informações da Reserva</legend>
 						<c:if test="${index >0 }">
-						<p><b><i>Prencha os campos abaixo somente após selecionar todos os dias e horários</i></b></p>
+						<p><b><i>Preencha os campos abaixo somente após selecionar todos os dias e horários</i></b></p>
 						<input type="text" name="responsavel" placeholder="Responsável"> 
 						<input type="text"name="motivo" placeholder="Motivo"> 
 						<input type="text" name="projeto" placeholder="Projeto">
